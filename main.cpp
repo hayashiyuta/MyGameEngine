@@ -21,11 +21,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	wc.lpszMenuName = NULL;                     //メニュー（なし）
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); //背景（白）
-
+	wc.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH); //背景（白）
 	RegisterClassEx(&wc);  //クラスを登録
 
-  //ウィンドウを作成
+   //ウィンドウを作成
 	HWND hWnd = CreateWindow(
 		"SampleGame",         //ウィンドウクラス名
 		"サンプルゲーム",     //タイトルバーに表示する内容
@@ -49,7 +48,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	while (msg.message != WM_QUIT)
 	{
 		//メッセージあり
-		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))//PeekMessage メッセージを集める
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -72,8 +71,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg)
 	{
 	case WM_DESTROY:
-		PostQuitMessage(0);  //ウィンドウが閉じられたらプログラム終了
+		PostQuitMessage(0);  //ウィンドウが閉じられたらプログラム終了 これをなくすとプログラムが終了しない
 		return 0;
+	
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);//ウィンドウの拡縮などのデフォルトの動き
 }
+	
