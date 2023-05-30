@@ -15,6 +15,7 @@ namespace Direct3D
 	ID3D11VertexShader* pVertexShader = nullptr;	//頂点シェーダー
 	ID3D11PixelShader* pPixelShader = nullptr;		//ピクセルシェーダー
 	ID3D11InputLayout* pVertexLayout = nullptr;	//頂点インプットレイアウト
+	ID3D11RasterizerState* pRasterizerState = nullptr;	//ラスタライザー
 }
 
 //定数宣言
@@ -124,6 +125,19 @@ void Direct3D::InitShader()
 	pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(),
 		     pCompilePS->GetBufferSize(), NULL, &pPixelShader);
 	pCompilePS->Release();
+
+	//ラスタライザ作成
+	D3D11_RASTERIZER_DESC rdc = {};
+	rdc.CullMode = D3D11_CULL_BACK;
+	rdc.FillMode = D3D11_FILL_SOLID;
+	rdc.FrontCounterClockwise = FALSE;
+	pDevice->CreateRasterizerState(&rdc, &pRasterizerState);
+
+	//それぞれをデバイスコンテキスト(絵をかく人)にセット
+	pContext->VSSetShader(pVertexShader, NULL, 0);	//頂点シェーダー
+	pContext->PSSetShader(pPixelShader, NULL, 0);	//ピクセルシェーダー
+	pContext->IASetInputLayout(pVertexLayout);	//頂点インプットレイアウト
+	pContext->RSSetState(pRasterizerState);		//ラスタライザー
 }
 
 //描画開始
@@ -156,6 +170,12 @@ void Direct3D::EndDraw()
 void Direct3D::Release()
 
 {
+	//シェーダー
+	pRasterizerState->Release();
+	pVertexLayout->Release();
+	pPixelShader->Release();
+	pVertexShader->Release();
+
 	//解放処理
 	pRenderTargetView->Release();
 	pSwapChain->Release();
