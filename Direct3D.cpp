@@ -74,9 +74,15 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	ID3D11Texture2D* pBackBuffer;
 	pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
-	//レンダーターゲットビューを作成
-	pDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView);
 
+	//レンダーターゲットビューを作成
+	HRESULT hr;
+	hr = pDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView);
+	if (FAILED(hr))
+	{
+		//失敗したときの処理
+		
+	}
 	//一時的にバックバッファを取得しただけなので解放
 	pBackBuffer->Release();
 
@@ -107,8 +113,10 @@ void Direct3D::InitShader()
 	ID3DBlob* pCompileVS = nullptr;
 	//                    ファイル名　　　　　　　　　　　　バージョン
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "VS","vs_5_0", NULL, 0, &pCompileVS, NULL);//コンパイルするよ
+	assert(pCompileVS != nullptr);//true
 	pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(),
 	         pCompileVS->GetBufferSize(), NULL, &pVertexShader);
+	
 
 	//頂点インプットレイアウト
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
@@ -117,14 +125,15 @@ void Direct3D::InitShader()
 	pDevice->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(),
 		     pCompileVS->GetBufferSize(),&pVertexLayout);
 
-	pCompileVS->Release();
+	SAFE_RELEASE(pCompileVS);
 
 	// ピクセルシェーダの作成（コンパイル）
 	ID3DBlob* pCompilePS = nullptr;
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+	assert(pCompilePS != nullptr);//true
 	pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(),
 		     pCompilePS->GetBufferSize(), NULL, &pPixelShader);
-	pCompilePS->Release();
+	SAFE_RELEASE(pCompilePS);
 
 	//ラスタライザ作成
 	D3D11_RASTERIZER_DESC rdc = {};
