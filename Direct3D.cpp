@@ -171,14 +171,22 @@ void Direct3D::Release()
 
 {
 	//シェーダー
-	pRasterizerState->Release();
-	pVertexLayout->Release();
-	pPixelShader->Release();
-	pVertexShader->Release();
+	//pRasterizerState->Release();
+	//pVertexLayout->Release();
+	//pPixelShader->Release();
+	//pVertexShader->Release();
+	SAFE_RELEASE(pRasterizerState);
+	SAFE_RELEASE(pVertexLayout);
+	SAFE_RELEASE(pPixelShader);
+	SAFE_RELEASE(pVertexShader);
 
 	//解放処理
-	pRenderTargetView->Release();
-	pSwapChain->Release();
-	pContext->Release();
-	pDevice->Release();
+	//pRenderTargetView->Release();
+	//pSwapChain->Release();
+	//pContext->Release();
+	//pDevice->Release();
+	SAFE_RELEASE(pRenderTargetView);
+	SAFE_RELEASE(pSwapChain);
+	SAFE_RELEASE(pContext);
+	SAFE_RELEASE(pDevice);
 }
