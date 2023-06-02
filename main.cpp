@@ -15,6 +15,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 //HINSTANCE　インスタンスハンドル
 {
+	HRESULT hr;
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
 
@@ -61,7 +62,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Direct3D::Initialize(winW, winH, hWnd);
 	
 	
-	pQuad->Initialize();
+	if (FAILED(pQuad->Initialize()))
+	{
+		return 0;
+	}
 
   //メッセージループ（何か起きるのを待つ）
 	MSG msg;
