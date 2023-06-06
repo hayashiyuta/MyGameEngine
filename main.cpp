@@ -6,14 +6,14 @@ const char* WIN_GAME_NAME = "サンプルゲーム";
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
 const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
-
+float R;
 //プロトタイプ宣言(ウィンドウプロシージャ)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
 
 //エントリーポイント　プログラムのスタート地点
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow )
 //HINSTANCE　インスタンスハンドル
 {
 	HRESULT hr;
@@ -62,7 +62,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
 	Camera::Initialize();
-	
+	Camera::SetTarget(XMFLOAT3(0,0, 0));
 	
 	if (FAILED(pQuad->Initialize()))
 	{
@@ -84,13 +84,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
-			//ゲームの処理
 			Camera::Update();
+			//ゲームの処理
+			
 			Direct3D::BeginDraw();
-			pQuad->Draw();
+			
 			//pQuad = new 
 
 			//描画処理
+			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(45));
+			R += 1;
+			XMMATRIX mat = XMMatrixTranslation(2, 0, 0)*XMMatrixRotationZ(XMConvertToRadians(-45 + R)) ;
+			pQuad->Draw(mat);
 			Direct3D::EndDraw();
 			
 			

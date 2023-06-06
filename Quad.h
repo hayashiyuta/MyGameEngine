@@ -24,7 +24,7 @@ public:
 	~Quad();
 	//void
 	HRESULT Initialize();
-	void Draw();
+	void Draw(XMMATRIX& worldMatrix);
 	void Release();
 
 };
