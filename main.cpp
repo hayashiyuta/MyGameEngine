@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include"Direct3D.h"
 #include"Quad.h"
+#include "Camera.h"
 const char* WIN_GAME_NAME = "サンプルゲーム";
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
@@ -60,6 +61,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Quad* pQuad = new Quad();
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
+	Camera::Initialize();
 	
 	
 	if (FAILED(pQuad->Initialize()))
@@ -83,6 +85,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		else
 		{
 			//ゲームの処理
+			Camera::Update();
 			Direct3D::BeginDraw();
 			pQuad->Draw();
 			//pQuad = new 
