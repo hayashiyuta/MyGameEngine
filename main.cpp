@@ -8,6 +8,7 @@ const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
 const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
 float R;
+float R2;
 //プロトタイプ宣言(ウィンドウプロシージャ)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -100,8 +101,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			//描画処理
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(45));
-			R += 0.1f;
-			XMMATRIX mat = XMMatrixTranslation(0, 0, 0)*XMMatrixRotationX(XMConvertToRadians(-45 + R)) * XMMatrixRotationY(XMConvertToRadians(-45 + R));
+			R += 0.04f;
+			XMMATRIX mat = XMMatrixTranslation(0, 0, 0) * XMMatrixRotationX(XMConvertToRadians(-45 + R)) *XMMatrixRotationZ(XMConvertToRadians(-30 + R));
 			//pQuad->Draw(mat);
 			pDice->Draw(mat);
 			Direct3D::EndDraw();
