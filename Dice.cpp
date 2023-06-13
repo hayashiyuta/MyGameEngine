@@ -45,7 +45,7 @@ HRESULT Dice::Initialize()
 		{XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),  XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f) },   //四角形の頂点（左上）(左面) 20(4)
 		{XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f), XMVectorSet(0.5f, 1.0f, 0.0f, 0.0f) },   //四角形の頂点（左下）(左面) 21(5)
 		{XMVectorSet(1.0f,  1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f) },	// 四角形の頂点（右上）(右面) 22(6)
-		{XMVectorSet(1.0f,  -1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f) },	// 四角形の頂点（右下）(右面) 23(7)
+		{XMVectorSet(1.0f,  -1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f) },	// 四角形の頂点（右下）(右面) 23(7) 6の面
 
 		//XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f),	// 四角形の頂点
 	};
@@ -67,7 +67,7 @@ HRESULT Dice::Initialize()
 		return hr;
 	}
 
-	//インデックス情報  1                2             3                 4                     5                      6
+	//インデックス情報    1              2               3                   4                   5                    6
 	int index[] = { 0,2,3, 0,1,2,  6,7,4, 4,7,5,  10,8,11, 8,9,11,  12,14,13, 13,14,15,  16,19,17, 19,18,17,  20,21,22, 21,23,22 };
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
