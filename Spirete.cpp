@@ -1,7 +1,9 @@
 #include "Spirete.h"
 #include "Camera.h"
+#include <DirectXMath.h>
 
 Spirete::Spirete() :pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), pTexture_(nullptr)
+{
 }
 
 Spirete::~Spirete()
@@ -14,25 +16,54 @@ Spirete::~Spirete()
 HRESULT Spirete::Initialize()
 {
 	
+	InitVertexData();
+	
+	
+	HRESULT hr = CreateVertexBuffer();
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
+		return hr;
+	}
+	
+	InitIndexData();
+	
+	hr = CreateIndexBuffer();
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, "インデックスバッファの作成に失敗しました", "エラー", MB_OK);
+		return hr;
 
-	
+	}
 
-	
-	
-	
+	hr = CreateConstantBuffer();
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, "コンスタントバッファの作成に失敗しました", "エラー", MB_OK);
+		return hr;
 
-	
+	}
+
+	hr = LoadTexture();
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, "テクスチャのロードに失敗しました", "エラー", MB_OK);
+		return hr;
+
+	}
 
 	return S_OK;
 }
 
 void Spirete::Draw(XMMATRIX& worldMatrix)
 {
-	
+	PassDataTcCB(worldMatrix);
+
+
+
+	SetBufferToPipeline();
 
 	
-
-	Direct3D::pContext_->DrawIndexed(6, 0, 0);
 }
 
 void Spirete::Release()
@@ -52,7 +83,7 @@ void Spirete::Release()
 void Spirete::InitVertexData()//頂点情報の準備
 {
 	// 頂点情報
-	VERTEX vertices[] =
+	vertices_ =
 	{
 		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },	// 四角形の頂点（左上）
 		{XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },	// 四角形の頂点（右上）
@@ -60,28 +91,28 @@ void Spirete::InitVertexData()//頂点情報の準備
 		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// 四角形の頂点（左下）	
 		//XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f),	// 四角形の頂点
 	};
-	vertices_ = vertices[];
+	vertexNum = vertices_.size();
 }
 
 HRESULT Spirete::CreateVertexBuffer()//頂点バッファを作成
 {
 	// 頂点データ用バッファの設定
 	D3D11_BUFFER_DESC bd_vertex;
-	bd_vertex.ByteWidth = sizeof(vertices_);
+	bd_vertex.ByteWidth = sizeof(vertices_[0])* vertexNum;
 	bd_vertex.Usage = D3D11_USAGE_DEFAULT;
 	bd_vertex.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd_vertex.CPUAccessFlags = 0;
 	bd_vertex.MiscFlags = 0;
 	bd_vertex.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA data_vertex;
-	data_vertex.pSysMem = vertices_;
+	data_vertex.pSysMem = &vertices_[0];
 	HRESULT hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
 		return hr;
 	}
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 
@@ -89,9 +120,10 @@ HRESULT Spirete::CreateVertexBuffer()//頂点バッファを作成
 void Spirete::InitIndexData()//インデックス情報の準備
 {
 	//インデックス情報
-	int index[] = { 0,2,3, 0,1,2 };
+	index_ = { 0,2,3, 0,1,2 };
 
-	index_ = index[];
+	indexNum = index_.size();
+
 }
 
 HRESULT Spirete::CreateIndexBuffer()//インデックスバッファを作成
@@ -99,23 +131,24 @@ HRESULT Spirete::CreateIndexBuffer()//インデックスバッファを作成
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(index_);
+	bd.ByteWidth = sizeof(index_[0]) * indexNum;
 	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 	bd.MiscFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA InitData;
-	InitData.pSysMem = index_;
+	InitData.pSysMem = &index_[0];
 	InitData.SysMemPitch = 0;
 	InitData.SysMemSlicePitch = 0;
 	HRESULT hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
+	
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr, "インデックスバッファの作成に失敗しました", "エラー", MB_OK);
 		return hr;
 
 	}
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT Spirete::CreateConstantBuffer()//コンスタントバッファ作成
@@ -137,14 +170,15 @@ HRESULT Spirete::CreateConstantBuffer()//コンスタントバッファ作成
 		return hr;
 
 	}
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT Spirete::LoadTexture()//テクスチャをロード
 {
 	pTexture_ = new Texture;
 	pTexture_->Load("Assets\\dice.png");
-	return E_NOTIMPL;
+
+	return S_OK;
 }
 
 void Spirete::PassDataTcCB(DirectX::XMMATRIX& worldMatrix)//コンスタントバッファに各種情報を渡す
@@ -185,5 +219,7 @@ void Spirete::SetBufferToPipeline()//各バッファをパイプラインにセット
 	//コンスタントバッファ
 	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
 	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
+
+	Direct3D::pContext_->DrawIndexed(indexNum, 0, 0);
 }
 
