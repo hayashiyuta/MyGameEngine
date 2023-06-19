@@ -20,10 +20,10 @@ namespace Direct3D
 }
 
 //定数宣言
-
-
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
 const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
+
+
 
 //初期化
 

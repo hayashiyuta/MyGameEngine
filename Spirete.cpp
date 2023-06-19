@@ -2,6 +2,11 @@
 #include "Camera.h"
 #include <DirectXMath.h>
 
+
+const int WINDOW_WIDTH = 800;  //ウィンドウの幅
+const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
+#define PIXELPOS(x,y) D3DXVECTOR3, , 1.0f)
+
 Spirete::Spirete() :pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), pTexture_(nullptr)
 {
 }
@@ -80,15 +85,18 @@ void Spirete::Release()
 	//pVertexBuffer_->Release();
 }
 
+
 void Spirete::InitVertexData()//頂点情報の準備
 {
+
+
 	// 頂点情報
 	vertices_ =
 	{
-		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },	// 四角形の頂点（左上）
-		{XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },	// 四角形の頂点（右上）
-		{XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },	// 四角形の頂点（右下）
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// 四角形の頂点（左下）	
+		{XMVectorSet(400 / (WINDOW_WIDTH / 2.0f) - 1.0f,  -300 / (WINDOW_HEIGHT / 2.0f) + 1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },	// 四角形の頂点（左上）
+		{XMVectorSet(800 / (WINDOW_WIDTH / 2.0f) - 1.0f, -300  / (WINDOW_HEIGHT / 2.0f) + 1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },	// 四角形の頂点（右上）
+		{XMVectorSet(800 / (WINDOW_WIDTH / 2.0f) - 1.0f, -600  / (WINDOW_HEIGHT / 2.0f) + 1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },	// 四角形の頂点（右下）
+		{XMVectorSet(400 / (WINDOW_WIDTH / 2.0f) - 1.0f, -600 / (WINDOW_HEIGHT / 2.0f) + 1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// 四角形の頂点（左下）	
 		//XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f),	// 四角形の頂点
 	};
 	vertexNum = vertices_.size();

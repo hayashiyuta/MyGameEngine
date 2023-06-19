@@ -9,6 +9,7 @@ using namespace DirectX;
 
 class Spirete
 {
+	
 	//コンスタントバッファー
 	struct CONSTANT_BUFFER
 	{
@@ -42,6 +43,7 @@ public:
 	void Release();
 
 private:
+	
 	virtual void InitVertexData(); //頂点情報の準備
 	HRESULT CreateVertexBuffer();//頂点バッファを作成
 
