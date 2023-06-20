@@ -19,5 +19,5 @@ void Transform::Calclation()
 
 XMMATRIX Transform::GetWorldMatrix()
 {
-
+	return XMMATRIX();
 }
