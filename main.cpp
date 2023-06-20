@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include"Direct3D.h"
 //#include"Quad.h"
-//#include"Dice.h"
+#include"Dice.h"
 #include"Spirete.h"
 #include "Camera.h"
 const char* WIN_GAME_NAME = "サンプルゲーム";
@@ -61,7 +61,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
 	//Quad* pQuad = new Quad();
-	//Dice* pDice = new Dice();
+	Dice* pDice = new Dice();
 	Spirete* pSpirete = new Spirete();
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
@@ -73,10 +73,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		return 0;
 	}*/
 
-	/*if (FAILED(pDice->Initialize()))
+	if (FAILED(pDice->Initialize()))
 	{
 		return 0;
-	}*/
+	}
 
 	if (FAILED(pSpirete->Initialize()))
 	{
@@ -108,9 +108,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//描画処理
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(45));
 			R += 0.04f;
-			XMMATRIX mat = XMMatrixTranslation(0, 0, 0); // XMMatrixRotationX(XMConvertToRadians(-30 + R));//XMMatrixTranslation(0, 0, 0) * XMMatrixRotationX(XMConvertToRadians(-45 + R));
+			XMMATRIX mat = XMMatrixRotationX(XMConvertToRadians(-30 + R)) * XMMatrixRotationZ(XMConvertToRadians(-45 + R)) * XMMatrixTranslation(-2, 0, 0); // ;//XMMatrixTranslation(0, 0, 0) * ;
 			//pQuad->Draw(mat);
-			//pDice->Draw(mat);
+			pDice->Draw(mat);
+
+			mat = XMMatrixTranslation(0, 0, 0);
 			pSpirete->Draw(mat);
 			Direct3D::EndDraw();
 			
@@ -119,7 +121,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		}
 	}
 	//SAFE_DELETE(pQuad);
-	//SAFE_DELETE(pDice);
+	SAFE_DELETE(pDice);
 	SAFE_DELETE(pSpirete);
 	Direct3D::Release();
 	//pQuad->Release();

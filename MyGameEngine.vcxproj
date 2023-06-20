@@ -136,6 +136,7 @@
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="Spirete.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Quad.h" />
     <ClInclude Include="Spirete.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple2D.hlsl">
