@@ -112,7 +112,7 @@ HRESULT Dice::Initialize()
 	return S_OK;
 }
 
-void Dice::Draw(XMMATRIX& worldMatrix)
+void Dice::Draw( Transform& transform)//XMMATRIX& worldMatrix,
 {
 	//コンスタントバッファに渡す情報
 	/*XMVECTOR position = {0, 3, -10, 0};	//カメラの位置
@@ -121,9 +121,12 @@ void Dice::Draw(XMMATRIX& worldMatrix)
 	XMMATRIX proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, 800.0f / 600.0f, 0.1f, 100.0f);//射影行列
 	*/
 	Direct3D::SetShader(SHADER_3D);
+	transform.Calclation();
 	CONSTANT_BUFFER cb;
-	cb.matWVP = XMMatrixTranspose(worldMatrix * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
-	cb.matW = XMMatrixTranspose(worldMatrix);
+	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+	cb.matW = XMMatrixTranspose(transform.GetNormalMatrix()); //XMMatrixTranspose(transform.GetWorldMatrix());
+	//cb.matNormal = 
+
 
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める

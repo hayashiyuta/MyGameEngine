@@ -5,6 +5,7 @@
 #include"Spirete.h"
 #include "Camera.h"
 #include"Transform.h"
+#include"Fbx.h"
 const char* WIN_GAME_NAME = "サンプルゲーム";
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
@@ -64,6 +65,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//Quad* pQuad = new Quad();
 	Dice* pDice = new Dice();
 	Spirete* pSpirete = new Spirete();
+	Fbx* pFbx = new Fbx();
 
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
@@ -84,6 +86,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	{
 		return 0;
 	}
+	pFbx->Load("ODEN.fbx");
 
   //メッセージループ（何か起きるのを待つ）
 	Transform* pTransform = new Transform();
@@ -112,12 +115,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//描画処理
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(45));
 			pTransform->Calclation();
-			XMMATRIX mat = pTransform->GetWorldMatrix();//XMMatrixRotationX(XMConvertToRadians(-30 + R)) * XMMatrixRotationZ(XMConvertToRadians(-45 + R)) * XMMatrixTranslation(-2, 0, 0); // ;//XMMatrixTranslation(0, 0, 0) * ;
+			//XMMATRIX mat = pTransform->GetWorldMatrix();//XMMatrixRotationX(XMConvertToRadians(-30 + R)) * XMMatrixRotationZ(XMConvertToRadians(-45 + R)) * XMMatrixTranslation(-2, 0, 0); // ;//XMMatrixTranslation(0, 0, 0) * ;
 			//pQuad->Draw(mat);
-			pDice->Draw(mat);
-
+			Transform DiceTransform;
+			static float angle = 0;
+			angle += 0.04f;
+			DiceTransform.position_.z = -1;
+			DiceTransform.rotate_.x = angle;
+			DiceTransform.rotate_.z = angle;
+			pDice->Draw(DiceTransform);
+			pFbx->Draw(DiceTransform);
 			XMMATRIX matS = XMMatrixTranslation(0, 0, 0);
 			pSpirete->Draw(matS);
+			
 			Direct3D::EndDraw();
 			
 			
@@ -126,6 +136,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	}
 	//SAFE_DELETE(pQuad);
 	SAFE_DELETE(pDice);
+	SAFE_DELETE(pFbx);
 	SAFE_DELETE(pSpirete);
 	Direct3D::Release();
 	//pQuad->Release();

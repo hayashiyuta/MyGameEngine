@@ -31,3 +31,8 @@ XMMATRIX Transform::GetWorldMatrix()
 {
 	return XMMatrixTranslation(0, 0, -1) * matScale_* matRotate_* matTranslate_;
 }
+
+XMMATRIX Transform::GetNormalMatrix()
+{
+	return matRotate_ * XMMatrixInverse(nullptr, matScale_);
+}

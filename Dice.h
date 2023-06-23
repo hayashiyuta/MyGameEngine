@@ -2,6 +2,7 @@
 #include <DirectXMath.h>
 #include "Direct3D.h"
 #include "Texture.h"
+#include"Transform.h"
 
 using namespace DirectX;
 
@@ -10,6 +11,7 @@ struct CONSTANT_BUFFER
 {
 	XMMATRIX	matWVP;
 	XMMATRIX	matW;
+	XMMATRIX    matNormal;
 };
 
 //í∏ì_èÓïÒ
@@ -33,7 +35,7 @@ public:
 	~Dice();
 	//void
 	HRESULT Initialize();
-	void Draw(XMMATRIX& worldMatrix);
+	void Draw( Transform& transform);//XMMATRIX& worldMatrix ,
 	void Release();
 
 };
