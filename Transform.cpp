@@ -15,7 +15,7 @@ void Transform::Calclation()
 {
 	rotate_.x += 0.04f;
 	rotate_.z += 0.04f;
-	position_.x = -2;
+	position_.x = 0;
 	matTranslate_ = XMMatrixTranslation(position_.x, position_.y, position_.z);
 
 	matRotate_ = XMMatrixRotationX(XMConvertToRadians(rotate_.x))*

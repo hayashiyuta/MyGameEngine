@@ -123,11 +123,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Transform FbxTransform;
 			static float angle = 0;
 			angle += 0.04f;
-			DiceTransform.position_.z = -1;
-			DiceTransform.rotate_.x = angle;
-			DiceTransform.rotate_.z = angle;
+			//DiceTransform.position_.z = -1;
+			DiceTransform.rotate_.y = angle;
+			//DiceTransform.rotate_.z = angle;
 			//pDice->Draw(DiceTransform);
-			pFbx->Draw(FbxTransform);
+			pFbx->Draw(DiceTransform);
 			XMMATRIX matS = XMMatrixTranslation(0, 0, 0);
 			//pSpirete->Draw(matS);
 			
