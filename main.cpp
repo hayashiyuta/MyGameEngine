@@ -1,8 +1,8 @@
 #include <Windows.h>
 #include"Direct3D.h"
 //#include"Quad.h"
-#include"Dice.h"
-#include"Spirete.h"
+//#include"Dice.h"
+//#include"Spirete.h"
 #include "Camera.h"
 #include"Transform.h"
 #include"Fbx.h"
@@ -63,21 +63,23 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
 	//Quad* pQuad = new Quad();
-	Dice* pDice = new Dice();
-	Spirete* pSpirete = new Spirete();
-	Fbx* pFbx = new Fbx();
-
+	//Dice* pDice = new Dice();
+	//Spirete* pSpirete = new Spirete();
+	
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
 	Camera::Initialize();
 	Camera::SetTarget(XMFLOAT3(0,0, 0));
+
+	Fbx* pFbx = new Fbx();
+	pFbx->Load("Assets/ODEN.fbx");
 	
 	/*if (FAILED(pQuad->Initialize()))
 	{
 		return 0;
 	}*/
 
-	if (FAILED(pDice->Initialize()))
+	/*if (FAILED(pDice->Initialize()))
 	{
 		return 0;
 	}
@@ -85,8 +87,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	if (FAILED(pSpirete->Initialize()))
 	{
 		return 0;
-	}
-	pFbx->Load("ODEN.fbx");
+	}*/
+	
 
   //メッセージループ（何か起きるのを待つ）
 	Transform* pTransform = new Transform();
@@ -118,15 +120,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//XMMATRIX mat = pTransform->GetWorldMatrix();//XMMatrixRotationX(XMConvertToRadians(-30 + R)) * XMMatrixRotationZ(XMConvertToRadians(-45 + R)) * XMMatrixTranslation(-2, 0, 0); // ;//XMMatrixTranslation(0, 0, 0) * ;
 			//pQuad->Draw(mat);
 			Transform DiceTransform;
+			Transform FbxTransform;
 			static float angle = 0;
 			angle += 0.04f;
 			DiceTransform.position_.z = -1;
 			DiceTransform.rotate_.x = angle;
 			DiceTransform.rotate_.z = angle;
-			pDice->Draw(DiceTransform);
-			pFbx->Draw(DiceTransform);
+			//pDice->Draw(DiceTransform);
+			pFbx->Draw(FbxTransform);
 			XMMATRIX matS = XMMatrixTranslation(0, 0, 0);
-			pSpirete->Draw(matS);
+			//pSpirete->Draw(matS);
 			
 			Direct3D::EndDraw();
 			
@@ -135,9 +138,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		}
 	}
 	//SAFE_DELETE(pQuad);
-	SAFE_DELETE(pDice);
+	//SAFE_DELETE(pDice);
 	SAFE_DELETE(pFbx);
-	SAFE_DELETE(pSpirete);
+	//SAFE_DELETE(pSpirete);
 	Direct3D::Release();
 	//pQuad->Release();
 
