@@ -1,6 +1,6 @@
 #include "Fbx.h"
 
-Fbx::Fbx():pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), polygonCount_(0)
+Fbx::Fbx():pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), polygonCount_(0),pMaterialList_(nullptr)
 {
 
 }
@@ -79,6 +79,11 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* mesh)
 			int uvIndex = mesh->GetTextureUVIndex(poly, vertex, FbxLayerElement::eTextureDiffuse);
 			FbxVector2  uv = pUV->GetDirectArray().GetAt(uvIndex);
 			vertices[index].uv = XMVectorSet((float)uv.mData[0], (float)(1.0f - uv.mData[1]), 0.0f, 0.0f);
+
+			//頂点の法線
+			FbxVector4 Normal;
+			mesh->GetPolygonVertexNormal(poly, vertex, Normal);	//ｉ番目のポリゴンの、ｊ番目の頂点の法線をゲット
+			vertices[index].normal = XMVectorSet((float)Normal[0], (float)Normal[1], (float)Normal[2], 0.0f);
 		}
 	}
 	// 頂点データ用バッファの設定
@@ -90,7 +95,7 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* mesh)
 	bd_vertex.MiscFlags = 0;
 	bd_vertex.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA data_vertex;
-	data_vertex.pSysMem = &vertices[0];
+	data_vertex.pSysMem = vertices;
 	
 
 	Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
@@ -100,8 +105,13 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* mesh)
 void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 {
 	pIndexBuffer_ = new ID3D11Buffer * [materialCount_];
+	index_Count_ = vector<int>(materialCount_);
 
-	int* index = new int[polygonCount_ * 3];
+	//int* index = new int[polygonCount_ * 3];
+
+	vector<int> index(polygonCount_ * 3);//ポリゴン数*3=全頂点分用意
+
+	
 
 	for (int i = 0; i < materialCount_; i++)
 	{
@@ -121,8 +131,10 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 					index[count] = mesh->GetPolygonVertex(poly, vertex);
 					count++;
 				}
+
 			}
 		}
+		index_Count_[i] = count;
 
 		D3D11_BUFFER_DESC   bd;
 		bd.Usage = D3D11_USAGE_DEFAULT;
@@ -133,7 +145,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 
 
 		D3D11_SUBRESOURCE_DATA InitData;
-		InitData.pSysMem = index;
+		InitData.pSysMem = index.data();
 		InitData.SysMemPitch = 0;
 		InitData.SysMemSlicePitch = 0;
 		Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_[i]);
@@ -186,7 +198,8 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 
 			//ファイルからテクスチャ作成
 			pMaterialList_[i].pTexture = new Texture;
-			pMaterialList_[i].pTexture->Load(name);
+			HRESULT hr = pMaterialList_[i].pTexture->Load(name);
+			assert(hr == S_OK);
 		}
 
 		//テクスチャ無し
@@ -202,12 +215,11 @@ void    Fbx::Draw(Transform& transform)
 	Direct3D::SetShader(SHADER_3D);
 	transform.Calclation();//トランスフォームを計算
 	CONSTANT_BUFFER cb;
-	D3D11_MAPPED_SUBRESOURCE pdata;
+	
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetWorldMatrix());
 
-	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
-	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
+	
 
 	//ID3D11SamplerState* pSampler = pTexture_->GetSampler();
 	//Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
@@ -216,16 +228,20 @@ void    Fbx::Draw(Transform& transform)
 	//Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
 
 
-
-	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
-
-	//頂点バッファ
-	UINT stride = sizeof(VERTEX);
-	UINT offset = 0;
-	Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
-
 	for (int i = 0; i < materialCount_; i++)
 	{
+		D3D11_MAPPED_SUBRESOURCE pdata;
+		Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
+		memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
+
+		
+		Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
+
+		//頂点バッファ
+		UINT stride = sizeof(VERTEX);
+		UINT offset = 0;
+		Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
+
 		// インデックスバッファーをセット
 		stride = sizeof(int);
 		offset = 0;
@@ -235,15 +251,18 @@ void    Fbx::Draw(Transform& transform)
 		Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
 		Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
 
+		
 		if (pMaterialList_[i].pTexture)
 		{
 			ID3D11SamplerState* pSampler = pMaterialList_[i].pTexture->GetSampler();
 			Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
+
 			ID3D11ShaderResourceView* pSRV = pMaterialList_[i].pTexture->GetSRV();
 			Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
 		}
+		
 
-		Direct3D::pContext_->DrawIndexed(polygonCount_ * 3, 0, 0);
+		Direct3D::pContext_->DrawIndexed(index_Count_[i], 0, 0);//polygonCount_ * 3
 	}
 	
 }

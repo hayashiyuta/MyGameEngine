@@ -3,12 +3,14 @@
 #include <d3d11.h>
 #include <fbxsdk.h>
 #include <string>
+#include<vector>
 #include "Transform.h"
 #include"Direct3D.h"
 #include"Transform.h"
 #include"Camera.h"
 #include"Texture.h"
 
+using std::vector;
 
 #pragma comment(lib, "LibFbxSDK-MD.lib")
 #pragma comment(lib, "LibXml2-MD.lib")
@@ -29,9 +31,9 @@ class Fbx
 
 	struct VERTEX
 	{
-		XMVECTOR position;
-		XMVECTOR uv;
-		
+		XMVECTOR position;//
+		XMVECTOR uv;//ポリゴン数
+		XMVECTOR normal;//法線ベクトル
 	};
 
 	int vertexCount_;	//頂点数
@@ -42,6 +44,7 @@ class Fbx
 	ID3D11Buffer** pIndexBuffer_;
 	ID3D11Buffer* pConstantBuffer_;
 	MATERIAL* pMaterialList_;
+	vector<int>index_Count_;
 
 public:
 
