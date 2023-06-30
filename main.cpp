@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include"Transform.h"
 #include"Fbx.h"
+#include"Input.h"
 const char* WIN_GAME_NAME = "サンプルゲーム";
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
@@ -68,6 +69,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
+	//DirectInputの初期化
+	Input::Initialize(hWnd);
 	Camera::Initialize();
 	Camera::SetTarget(XMFLOAT3(0,0, 0));
 
@@ -111,7 +114,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//ゲームの処理
 			
 			Direct3D::BeginDraw();
-			
+			//入力情報の更新
+			Input::Update();
+			if (Input::IsKey(DIK_ESCAPE))
+			{
+				PostQuitMessage(0);
+			}
 			//pQuad = new 
 
 			//描画処理
@@ -140,6 +148,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//SAFE_DELETE(pQuad);
 	//SAFE_DELETE(pDice);
 	SAFE_DELETE(pFbx);
+	Input::Release();
 	//SAFE_DELETE(pSpirete);
 	Direct3D::Release();
 	//pQuad->Release();
