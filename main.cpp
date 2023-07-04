@@ -1,12 +1,16 @@
 #include <Windows.h>
 #include"Engine/Direct3D.h"
-#include "Engine/Camera.h"
+#include"Engine/Camera.h"
 #include"Engine/Input.h"
+#include"Engine/RootJob.h"
 const char* WIN_GAME_NAME = "サンプルゲーム";
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
 const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
 float R;
+
+RootJob* pRootJob = nullptr;
+
 //プロトタイプ宣言(ウィンドウプロシージャ)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -65,8 +69,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Input::Initialize(hWnd);
 	Camera::Initialize();
 	Camera::SetTarget(XMFLOAT3(0,0, 0));
-
-	
+	//RootJob
+	pRootJob = new RootJob;
+	pRootJob->Initialize();
 	
 	
 	
@@ -95,13 +100,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			
 			//入力情報の更新
 			Input::Update();
-			
+			pRootJob->Update();
 			
 			
 
 			//描画処理
 			Direct3D::BeginDraw();
-			
+			pRootJob->Draw();
 			
 			
 			
@@ -116,6 +121,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	
 	Input::Release();
 	Direct3D::Release();
+	pRootJob->Release();
 	return 0;
 }
 //ウィンドウプロシージャ（何かあった時によばれる関数）
