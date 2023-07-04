@@ -116,9 +116,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::BeginDraw();
 			//“ü—Íî•ñ‚ÌXV
 			Input::Update();
-			if (Input::IsKey(DIK_ESCAPE))
+			if (Input::IsKeyUp(DIK_ESCAPE))
 			{
-				PostQuitMessage(0);
+				static int cnt = 0;
+				cnt++;
+				if (cnt >= 3)
+				{
+					PostQuitMessage(0);
+				}
+				
 			}
 			//pQuad = new 
 
