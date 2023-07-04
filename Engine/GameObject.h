@@ -5,6 +5,7 @@
 #include<list>
 class GameObject
 {
+protected:
 	std::list<GameObject*> childList_;
 	Transform	transform_;
 	GameObject* pParent_;
