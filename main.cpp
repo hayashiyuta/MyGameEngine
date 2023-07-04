@@ -1,12 +1,7 @@
 #include <Windows.h>
-#include"Direct3D.h"
-//#include"Quad.h"
-//#include"Dice.h"
-//#include"Spirete.h"
-#include "Camera.h"
-#include"Transform.h"
-#include"Fbx.h"
-#include"Input.h"
+#include"Engine/Direct3D.h"
+#include "Engine/Camera.h"
+#include"Engine/Input.h"
 const char* WIN_GAME_NAME = "サンプルゲーム";
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
@@ -63,9 +58,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	//ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
-	//Quad* pQuad = new Quad();
-	//Dice* pDice = new Dice();
-	//Spirete* pSpirete = new Spirete();
 	
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
@@ -74,27 +66,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Camera::Initialize();
 	Camera::SetTarget(XMFLOAT3(0,0, 0));
 
-	Fbx* pFbx = new Fbx();
-	pFbx->Load("Assets/ODEN.fbx");
 	
-	/*if (FAILED(pQuad->Initialize()))
-	{
-		return 0;
-	}*/
-
-	/*if (FAILED(pDice->Initialize()))
-	{
-		return 0;
-	}
-
-	if (FAILED(pSpirete->Initialize()))
-	{
-		return 0;
-	}*/
+	
+	
 	
 
   //メッセージループ（何か起きるのを待つ）
-	Transform* pTransform = new Transform();
+	
 
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -110,67 +88,34 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
-			Camera::Update();
-			//ゲームの処理
 			
-			Direct3D::BeginDraw();
+			//ゲームの処理
+			Camera::Update();
+
+			
 			//入力情報の更新
 			Input::Update();
-			/*if (Input::IsKeyUp(DIK_ESCAPE))
-			{
-				static int cnt = 0;
-				cnt++;
-				if (cnt >= 3)
-				{
-					PostQuitMessage(0);
-				}
-				
-			}*/
 			
-			//pQuad = new 
+			
+			
 
 			//描画処理
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(45));
-			pTransform->Calclation();
-			//XMMATRIX mat = pTransform->GetWorldMatrix();//XMMatrixRotationX(XMConvertToRadians(-30 + R)) * XMMatrixRotationZ(XMConvertToRadians(-45 + R)) * XMMatrixTranslation(-2, 0, 0); // ;//XMMatrixTranslation(0, 0, 0) * ;
-			//pQuad->Draw(mat);
-			static Transform DiceTransform;
-			Transform FbxTransform;
-			static float angle = 0;
-			angle += 0.00f;
-			//DiceTransform.position_.z = -1;
-			//DiceTransform.rotate_.y = angle;
-			//DiceTransform.rotate_.z = angle;
-			//pDice->Draw(DiceTransform);
-			//pFbx->Draw(DiceTransform);
-			XMMATRIX matS = XMMatrixTranslation(0, 0, 0);
-			//pSpirete->Draw(matS);
-			if (Input::IsKey(DIK_RIGHT))
-			{
-				DiceTransform.position_.x += 0.01f;
-				
-			}
-			if (Input::IsKey(DIK_LEFT))
-			{
-				DiceTransform.position_.x -= 0.01f;
-
-			}
-			pFbx->Draw(DiceTransform);
+			Direct3D::BeginDraw();
+			
+			
+			
+			
+			
+			
 			Direct3D::EndDraw();
 			
 			
 
 		}
 	}
-	//SAFE_DELETE(pQuad);
-	//SAFE_DELETE(pDice);
-	SAFE_DELETE(pFbx);
+	
 	Input::Release();
-	//SAFE_DELETE(pSpirete);
 	Direct3D::Release();
-	//pQuad->Release();
-
-	//delete pQuad;
 	return 0;
 }
 //ウィンドウプロシージャ（何かあった時によばれる関数）
