@@ -116,7 +116,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::BeginDraw();
 			//“ü—Íî•ñ‚ÌXV
 			Input::Update();
-			if (Input::IsKeyUp(DIK_ESCAPE))
+			/*if (Input::IsKeyUp(DIK_ESCAPE))
 			{
 				static int cnt = 0;
 				cnt++;
@@ -125,7 +125,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 					PostQuitMessage(0);
 				}
 				
-			}
+			}*/
+			
 			//pQuad = new 
 
 			//•`‰æˆ—
@@ -133,18 +134,28 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			pTransform->Calclation();
 			//XMMATRIX mat = pTransform->GetWorldMatrix();//XMMatrixRotationX(XMConvertToRadians(-30 + R)) * XMMatrixRotationZ(XMConvertToRadians(-45 + R)) * XMMatrixTranslation(-2, 0, 0); // ;//XMMatrixTranslation(0, 0, 0) * ;
 			//pQuad->Draw(mat);
-			Transform DiceTransform;
+			static Transform DiceTransform;
 			Transform FbxTransform;
 			static float angle = 0;
-			angle += 0.04f;
+			angle += 0.00f;
 			//DiceTransform.position_.z = -1;
-			DiceTransform.rotate_.y = angle;
+			//DiceTransform.rotate_.y = angle;
 			//DiceTransform.rotate_.z = angle;
 			//pDice->Draw(DiceTransform);
-			pFbx->Draw(DiceTransform);
+			//pFbx->Draw(DiceTransform);
 			XMMATRIX matS = XMMatrixTranslation(0, 0, 0);
 			//pSpirete->Draw(matS);
-			
+			if (Input::IsKey(DIK_RIGHT))
+			{
+				DiceTransform.position_.x += 0.01f;
+				
+			}
+			if (Input::IsKey(DIK_LEFT))
+			{
+				DiceTransform.position_.x -= 0.01f;
+
+			}
+			pFbx->Draw(DiceTransform);
 			Direct3D::EndDraw();
 			
 			
