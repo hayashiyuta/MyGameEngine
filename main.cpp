@@ -100,7 +100,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			
 			//入力情報の更新
 			Input::Update();
-			pRootJob->Update();
+			pRootJob->UpdateSub();
 			
 			
 
@@ -121,7 +121,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	
 	Input::Release();
 	Direct3D::Release();
-	pRootJob->Release();
+	pRootJob->ReleaseSub();
 	return 0;
 }
 //ウィンドウプロシージャ（何かあった時によばれる関数）

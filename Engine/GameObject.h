@@ -28,6 +28,7 @@ public:
 		p->Initialize();
 		childList_.push_back(p);
 	}
-
+	void UpdateSub();
 	void DrawSub();
+	void ReleaseSub();
 };
