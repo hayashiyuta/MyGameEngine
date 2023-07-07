@@ -20,6 +20,7 @@ void RootJob::Initialize()
 
 void RootJob::Update()
 {
+
 }
 
 void RootJob::Draw()

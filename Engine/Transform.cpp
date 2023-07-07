@@ -29,7 +29,7 @@ void Transform::Calclation()
 
 XMMATRIX Transform::GetWorldMatrix()
 {
-	return XMMatrixTranslation(0, 0, -1) * matScale_* matRotate_* matTranslate_;
+	return XMMatrixTranslation(0, 0, 0) * matScale_* matRotate_* matTranslate_;
 }
 
 XMMATRIX Transform::GetNormalMatrix()
