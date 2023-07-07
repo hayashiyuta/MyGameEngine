@@ -14,3 +14,12 @@ GameObject::~GameObject()
 {
 
 }
+
+void GameObject::DrawSub()
+{
+	Draw();
+	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)//‚·‚×‚Ä‚ÌŽq‹Ÿ‚ÌDrawSub‚ðŒÄ‚Ô
+	{
+		(*itr)->DrawSub();
+	}
+}
