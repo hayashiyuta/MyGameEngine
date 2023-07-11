@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include"Engine/Fbx.h"
 #include"Player.h"
+#include"Engine/GameObject.h"
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene")

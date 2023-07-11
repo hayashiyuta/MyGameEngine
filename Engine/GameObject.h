@@ -33,12 +33,13 @@ public:
 	virtual void Draw() = 0;
 	virtual void Release() = 0;
 	template <class T>
-	void Instantiate(GameObject* parent)
+	GameObject* Instantiate(GameObject* parent)
 	{
 		T* p;
 		p = new T(parent);
 		p->Initialize();
 		childList_.push_back(p);
+		return p;
 	}
 	void UpdateSub();
 	void DrawSub();
