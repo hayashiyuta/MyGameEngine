@@ -3,8 +3,20 @@
 #include "Transform.h"
 #include <string>
 #include<list>
+
+#define SAFE_DELETE(p) if(p != nullptr){ delete p; p = nullptr;}
+
 class GameObject
 {
+private:
+	struct OBJECT_STATE
+	{
+		unsigned initilized : 1; //‰Šú‰»Ï‚©
+		unsigned entered : 1;    //XV‚·‚é‚©
+		unsigned visible : 1;    //•`‰æ‚·‚é‚©
+		unsigned dead : 1;       //íœ‚·‚é‚©
+	};
+	OBJECT_STATE state_;
 protected:
 	std::list<GameObject*> childList_;
 	Transform	transform_;
@@ -31,4 +43,6 @@ public:
 	void UpdateSub();
 	void DrawSub();
 	void ReleaseSub();
+	bool IsDead();
+	void KillMe();
 };

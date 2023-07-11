@@ -4,6 +4,7 @@
 #include"Engine/Camera.h"
 #include"Engine/Input.h"
 #include"Engine/RootJob.h"
+#include"Engine/GameObject.h"
 
 #pragma comment(lib, "winmm.lib")
 //’è”éŒ¾
@@ -76,6 +77,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//RootJob
 	pRootJob = new RootJob;
 	pRootJob->Initialize();
+	//GameObject
 	
 	
 	

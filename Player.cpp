@@ -1,5 +1,7 @@
 #include "Player.h"
 #include"Engine/Fbx.h"
+#include"Engine/Input.h"
+#include"Player_Child.h"
 //コンストラクタ
 Player::Player(GameObject* parent)
 	: GameObject(parent, "Player"), pFbx(nullptr)
@@ -15,6 +17,7 @@ Player::Player(GameObject* parent)
 //初期化
 void Player::Initialize()
 {
+	Instantiate<Player_Child>(this);
 }
 
 //更新
@@ -22,6 +25,12 @@ void Player::Update()
 {
 	//this->transform_.rotate_.y += 0.1;
 	transform_.rotate_.y++;
+	if (Input::IsKey(DIK_SPACE))
+	{
+		//何らかの処理
+		this->KillMe();
+	}
+	
 }
 
 //描画

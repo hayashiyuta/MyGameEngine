@@ -148,7 +148,9 @@
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player_Child.cpp" />
     <ClCompile Include="PlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -187,7 +189,9 @@
     <ClInclude Include="Engine\Spirete.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Player_Child.h" />
     <ClInclude Include="PlayScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
