@@ -1,8 +1,12 @@
 #include <Windows.h>
+#include <stdlib.h>
 #include"Engine/Direct3D.h"
 #include"Engine/Camera.h"
 #include"Engine/Input.h"
 #include"Engine/RootJob.h"
+
+#pragma comment(lib, "winmm.lib")
+//定数宣言
 const char* WIN_GAME_NAME = "サンプルゲーム";
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
@@ -93,7 +97,33 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
-			
+			timeBeginPeriod(1);//1ミリ秒単位で(精度が上がる)
+			static DWORD countFps = 0;
+
+			static DWORD startTime = timeGetTime();
+			DWORD nowTime = timeGetTime();
+
+			static DWORD lastUpdateTime = nowTime;
+
+			if (nowTime - startTime >= 1000)//if文の処理が重い(たまに1000を超える)
+			{
+				char str[16];
+				wsprintf(str, "%u", countFps);
+				SetWindowText(hWnd, str);
+
+				countFps = 0;
+				startTime = nowTime;
+
+			}
+
+			if ((nowTime - lastUpdateTime) * 60 <= 1000)//現在の時間が前回の時間から何秒経ったか
+			{
+				continue;
+			}
+			lastUpdateTime = nowTime;
+			countFps++;
+
+			timeEndPeriod(1);
 			//ゲームの処理
 			Camera::Update();
 

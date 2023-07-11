@@ -20,7 +20,8 @@ void Player::Initialize()
 //XV
 void Player::Update()
 {
-	this->transform_.rotate_.y += 0.1;
+	//this->transform_.rotate_.y += 0.1;
+	transform_.rotate_.y++;
 }
 
 //•`‰æ
