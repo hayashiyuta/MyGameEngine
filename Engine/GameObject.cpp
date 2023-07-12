@@ -8,6 +8,8 @@ GameObject::GameObject()
 GameObject::GameObject(GameObject* parent, const std::string& name):childList_(0), pParent_(parent), objectName_(name)
 {
 	state_ = { 0, 1, 1, 0 };
+	if (parent != nullptr)
+		this->transform_.pParent_ = &(parent->transform_);
 }
 
 GameObject::~GameObject()
@@ -59,10 +61,18 @@ void GameObject::DrawSub()
 
 void GameObject::ReleaseSub()
 {
-	Release();
+	
 	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)//‚·‚×‚Ä‚Ìq‹Ÿ‚ÌReleaseSub‚ğŒÄ‚Ô
 	{
-		(*itr)->ReleaseSub();
+		
+		(*itr)->ReleaseSub();//*itr‚ÌƒŠƒŠ[ƒX‚ğŒÄ‚Ô
+		SAFE_DELETE(*itr);//*itr‚ğÁ‚·
 	}
+	Release();
 }
 
+void GameObject::SetPosition(XMFLOAT3 position_)
+{
+	transform_.position_ = position_;
+
+}

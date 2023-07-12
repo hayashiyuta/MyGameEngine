@@ -6,18 +6,22 @@
 Player::Player(GameObject* parent)
 	: GameObject(parent, "Player"), pFbx(nullptr)
 {
+	
+}
+
+//‰Šú‰»
+void Player::Initialize()
+{
 	pFbx = new Fbx;
 	pFbx->Load("Assets/oden.fbx");
 	this->transform_.position_.z = -1;
 	this->transform_.scale_.x = 0.5;
 	this->transform_.scale_.y = 0.5;
 	this->transform_.scale_.z = 0.5;
-}
-
-//‰Šú‰»
-void Player::Initialize()
-{
-	Instantiate<Player_Child>(this);
+	GameObject* pCO1 = Instantiate<Player_Child>(this);
+	pCO1->SetPosition(XMFLOAT3(2, 1, 0));
+	GameObject* pCO2 =  Instantiate<Player_Child>(this);
+	pCO2->SetPosition(XMFLOAT3(-2,1,0));
 }
 
 //XV
@@ -25,12 +29,14 @@ void Player::Update()
 {
 	//this->transform_.rotate_.y += 0.1;
 	transform_.rotate_.y++;
-	if (Input::IsKey(DIK_SPACE))
+	
+	/*if (Input::IsKey(DIK_SPACE))
 	{
 		//‰½‚ç‚©‚Ìˆ—
 		this->KillMe();
-	}
-	
+	}*/
+	if (transform_.rotate_.y++ > 600)
+		KillMe();
 }
 
 //•`‰æ
@@ -42,6 +48,8 @@ void Player::Draw()
 //ŠJ•ú
 void Player::Release()
 {
-	pFbx->Release();
-	delete pFbx;
+	//pFbx->Release();
+	//delete pFbx;
 }
+
+

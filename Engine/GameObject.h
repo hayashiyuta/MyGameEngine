@@ -46,4 +46,5 @@ public:
 	void ReleaseSub();
 	bool IsDead();
 	void KillMe();
+	void SetPosition(XMFLOAT3 position_);
 };
