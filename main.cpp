@@ -5,6 +5,7 @@
 #include"Engine/Input.h"
 #include"Engine/RootJob.h"
 #include"Engine/GameObject.h"
+#include"Engine/Model.h"
 
 #pragma comment(lib, "winmm.lib")
 //定数宣言
@@ -150,10 +151,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		}
 	}
-	
+	Model::Release();
+	pRootJob->ReleaseSub();
+
+
 	Input::Release();
 	Direct3D::Release();
-	pRootJob->ReleaseSub();
+	
 	return 0;
 }
 //ウィンドウプロシージャ（何かあった時によばれる関数）
