@@ -71,12 +71,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	
 	//Direct3D‰Šú‰»
 	Direct3D::Initialize(winW, winH, hWnd);
-	//DirectInput‚Ì‰Šú‰»
-	Input::Initialize(hWnd);
+	
 	Camera::Initialize();
 	Camera::SetTarget(XMFLOAT3(0,0, 0));
+	//DirectInput‚Ì‰Šú‰»
+	Input::Initialize(hWnd);
+
 	//RootJob
-	pRootJob = new RootJob;
+	pRootJob = new RootJob(nullptr);
 	pRootJob->Initialize();
 	//GameObject
 	
