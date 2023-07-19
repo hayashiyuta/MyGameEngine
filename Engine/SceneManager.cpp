@@ -2,6 +2,7 @@
 #include"../TestScene.h"
 #include"Model.h"
 #include"../PlayScene.h"
+#include"Input.h"
 //コンストラクタ
 SceneManager::SceneManager(GameObject* parent)
 	: GameObject(parent, "SceneManager")
@@ -19,6 +20,7 @@ void SceneManager::Initialize()
 	currentSceneID_ = SCENE_ID_TEST;
 	nextSceneID_ = currentSceneID_;
 	Instantiate< TestScene>(this);
+	
 }
 
 //更新
@@ -26,6 +28,7 @@ void SceneManager::Update()
 {
 	//シーンを切り替える
 	//現在のシーンと、ネクストシーンが別だったら切り替え
+	
 	if (currentSceneID_ != nextSceneID_)
 	{
 		//そのシーンのオブジェクトを全削除
@@ -60,7 +63,10 @@ void SceneManager::Draw()
 void SceneManager::Release()
 {
 }
-
+/// <summary>
+/// 指定したシーンを
+/// </summary>
+/// <param name="_next"></param>
 void SceneManager::ChangeScene(SCENE_ID _next)
 {
 	nextSceneID_ = _next;

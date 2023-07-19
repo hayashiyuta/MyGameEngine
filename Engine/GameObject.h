@@ -32,6 +32,16 @@ public:
 	virtual void Update() =0;
 	virtual void Draw() = 0;
 	virtual void Release() = 0;
+	void UpdateSub();
+	void DrawSub();
+	void ReleaseSub();
+	bool IsDead();
+	void KillMe();
+	void SetPosition(XMFLOAT3 position_);
+	GameObject* FindChildObject(std::string _objName);
+	GameObject* GetRootJob();
+	GameObject* FindObject(std::string _objName);
+
 	template <class T>
 	GameObject* Instantiate(GameObject* parent)
 	{
@@ -41,10 +51,5 @@ public:
 		childList_.push_back(p);
 		return p;
 	}
-	void UpdateSub();
-	void DrawSub();
-	void ReleaseSub();
-	bool IsDead();
-	void KillMe();
-	void SetPosition(XMFLOAT3 position_);
+	
 };

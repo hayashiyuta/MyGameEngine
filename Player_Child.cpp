@@ -24,7 +24,7 @@ void Player_Child::Initialize()
 //XV
 void Player_Child::Update()
 {
-	transform_.rotate_.z += 10;
+	transform_.rotate_.z += 15;
 	transform_.position_.z += 0.5f;
 	if (transform_.position_.z > 50)
 	{

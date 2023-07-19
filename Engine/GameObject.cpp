@@ -76,3 +76,38 @@ void GameObject::SetPosition(XMFLOAT3 position_)
 	transform_.position_ = position_;
 
 }
+
+GameObject* GameObject::FindChildObject(std::string _objName)
+{
+	if (_objName == this->objectName_)
+	{
+		return(this);//自分が_objNameのオブジェクトだったら自分のポインタを返す
+	}
+	else
+	{
+		for (auto e:childList_)
+		{
+			GameObject* obj = e->FindChildObject(_objName);
+			if (obj != nullptr)
+				return obj;
+		}
+	}
+	return nullptr;
+}
+/// <summary>
+/// 再起呼び出しでRootJobを探してそのアドレスを返す関数
+/// </summary>
+/// <returns>戻り値はRootJobのアドレス(GameObject* 型)</returns>
+GameObject* GameObject::GetRootJob()
+{
+	if (pParent_ == nullptr)
+		return this;
+
+	return pParent_->GetRootJob();
+
+}
+
+GameObject* GameObject::FindObject(std::string _objName)
+{
+	return GetRootJob()->FindChildObject(_objName);
+}
