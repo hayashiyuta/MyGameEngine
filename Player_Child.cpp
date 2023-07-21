@@ -1,6 +1,7 @@
 #include "Player_Child.h"
 #include"Engine/Fbx.h"
 #include"Engine/Model.h"
+#include"Engine/SphereCollider.h"
 //コンストラクタ
 Player_Child::Player_Child(GameObject* parent)
 	: GameObject(parent, "Player_Child"), pFbx(nullptr), hModel_(-1)
@@ -19,6 +20,8 @@ void Player_Child::Initialize()
 	this->transform_.position_.x = 2;
 	this->transform_.position_.y = 1;
 	this->transform_.rotate_.x = 90;
+	SphereCollider* col = new SphereCollider(1.0f);
+	AddCollider(col);
 }
 
 //更新

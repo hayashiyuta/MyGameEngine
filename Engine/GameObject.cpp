@@ -1,5 +1,5 @@
 #include "GameObject.h"
-
+#include"SphereCollider.h"
 GameObject::GameObject()
 {
 
@@ -31,6 +31,7 @@ void GameObject::KillMe()
 void GameObject::UpdateSub()
 {
 	Update();
+	RoundRodin(GetRootJob());
 	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)//すべての子供のUpdateSubを呼ぶ
 	{
 		(*itr)->UpdateSub();
@@ -110,4 +111,45 @@ GameObject* GameObject::GetRootJob()
 GameObject* GameObject::FindObject(std::string _objName)
 {
 	return GetRootJob()->FindChildObject(_objName);
+}
+
+void GameObject::AddCollider(SphereCollider* pCollider)
+{
+	pCollider_ = pCollider;
+}
+
+void GameObject::Collision(GameObject* pTarget)
+{
+	if (pTarget == this ||pTarget->pCollider_ == nullptr)
+		return;//自分自身、又はターゲットにコライダーがアタッチされていない
+
+	//自分とターゲットの距離 <= R1+R2なら
+	/*XMVECTOR v{transform_.position_.x - pTarget->transform_.position_.x,
+	           transform_.position_.y - pTarget->transform_.position_.y,
+	           transform_.position_.z - pTarget->transform_.position_.z ,0};
+	XMVECTOR dist = XMVector3Dot(v, v);*/
+	float dist = (transform_.position_.x - pTarget->transform_.position_.x) * (transform_.position_.x - pTarget->transform_.position_.x)
+		+ (transform_.position_.y - pTarget->transform_.position_.y) * (transform_.position_.y - pTarget->transform_.position_.y)
+		+ (transform_.position_.z - pTarget->transform_.position_.z) * (transform_.position_.z - pTarget->transform_.position_.z);
+	float rDist = (this->pCollider_->GetRadius() + pTarget->pCollider_->GetRadius()) + (this->pCollider_->GetRadius() + pTarget->pCollider_->GetRadius());
+	//もし自分とターゲットがぶつかっていたら
+	if (dist <= rDist)
+	{
+		//onCollosion(pTarget)を呼び出す
+		double p = 0;
+	}
+	
+	
+	
+}
+
+void GameObject::RoundRodin(GameObject* pTarget)
+{
+	if (pCollider_ == nullptr)
+		return;
+	if (pTarget->pCollider_ != nullptr)//自分とターゲット
+		Collision(pTarget);
+	//自分の子供全部とターゲット
+	for (auto itr : pTarget->childList_)
+		RoundRodin(itr);
 }

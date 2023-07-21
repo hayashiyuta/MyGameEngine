@@ -1,5 +1,6 @@
 #include "Enemy_oden.h"
 #include"Engine/Model.h"
+#include"Engine/SphereCollider.h"
 
 //コンストラクタ
 Enemy_oden::Enemy_oden(GameObject* parent)
@@ -13,6 +14,8 @@ void Enemy_oden::Initialize()
 	hModel_ = Model::Load("Assets/oden.fbx");
 	assert((hModel_ >= 0));
 	this->transform_.position_.z = 10;
+	SphereCollider* col = new SphereCollider(5.0f);
+	AddCollider(col);
 }
 
 //更新
