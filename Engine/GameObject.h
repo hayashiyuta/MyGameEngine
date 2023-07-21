@@ -6,6 +6,8 @@
 
 #define SAFE_DELETE(p) if(p != nullptr){ delete p; p = nullptr;}
 
+class SphereCollider;
+
 class GameObject
 {
 private:
@@ -22,6 +24,7 @@ protected:
 	Transform	transform_;
 	GameObject* pParent_;
 	std::string	objectName_;
+	SphereCollider* pCollider_;
 
 public:
 	GameObject();
@@ -41,6 +44,9 @@ public:
 	GameObject* FindChildObject(std::string _objName);
 	GameObject* GetRootJob();
 	GameObject* FindObject(std::string _objName);
+	void AddCollider(SphereCollider* pCollider);
+	void Collision(GameObject* pTarget);
+	void RoundRodin(GameObject* pTarget);
 
 	template <class T>
 	GameObject* Instantiate(GameObject* parent)

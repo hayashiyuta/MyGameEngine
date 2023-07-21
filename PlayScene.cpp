@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include"Engine/Fbx.h"
 #include"Player.h"
+#include "Enemy_oden.h"
 #include"Engine/GameObject.h"
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
@@ -18,6 +19,7 @@ void PlayScene::Initialize()
 	childList_.push_back(pPlayer);//PlaySceneの子として、プレイヤーを登録
 	*/
 	Instantiate<Player>(this);
+	Instantiate<Enemy_oden>(this);
 }
 
 //更新
