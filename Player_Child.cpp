@@ -50,3 +50,14 @@ void Player_Child::Release()
 	//pFbx->Release();
 	//delete pFbx;
 }
+
+//‰½‚©‚É“–‚½‚Á‚½
+void Player_Child::OnCollision(GameObject* pTarget)
+{
+	//“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
+	 //“G‚É“–‚½‚Á‚½‚Æ‚«
+	if (pTarget->GetObjectName() == "Enemy_oden")
+	{
+		pTarget->KillMe();
+	}
+}

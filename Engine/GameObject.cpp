@@ -136,7 +136,7 @@ void GameObject::Collision(GameObject* pTarget)
 	if (dist <= rDist)
 	{
 		//onCollosion(pTarget)‚ðŒÄ‚Ño‚·
-		double p = 0;
+		OnCollision(pTarget);
 	}
 	
 	
@@ -153,3 +153,9 @@ void GameObject::RoundRodin(GameObject* pTarget)
 	for (auto itr : pTarget->childList_)
 		RoundRodin(itr);
 }
+
+string GameObject::GetObjectName()
+{
+	return objectName_;
+}
+

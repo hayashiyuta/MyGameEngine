@@ -14,7 +14,7 @@ void Enemy_oden::Initialize()
 	hModel_ = Model::Load("Assets/oden.fbx");
 	assert((hModel_ >= 0));
 	this->transform_.position_.z = 10;
-	SphereCollider* col = new SphereCollider(5.0f);
+	SphereCollider* col = new SphereCollider(3.0f);
 	AddCollider(col);
 }
 

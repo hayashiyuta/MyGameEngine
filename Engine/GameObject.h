@@ -5,7 +5,7 @@
 #include<list>
 
 #define SAFE_DELETE(p) if(p != nullptr){ delete p; p = nullptr;}
-
+using std::string;
 class SphereCollider;
 
 class GameObject
@@ -35,6 +35,7 @@ public:
 	virtual void Update() =0;
 	virtual void Draw() = 0;
 	virtual void Release() = 0;
+	virtual void OnCollision(GameObject* pTarget) {};
 	void UpdateSub();
 	void DrawSub();
 	void ReleaseSub();
@@ -47,6 +48,7 @@ public:
 	void AddCollider(SphereCollider* pCollider);
 	void Collision(GameObject* pTarget);
 	void RoundRodin(GameObject* pTarget);
+	std::string GetObjectName();
 
 	template <class T>
 	GameObject* Instantiate(GameObject* parent)
