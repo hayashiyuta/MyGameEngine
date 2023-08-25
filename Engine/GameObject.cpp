@@ -5,7 +5,7 @@ GameObject::GameObject()
 
 }
 
-GameObject::GameObject(GameObject* parent, const std::string& name):childList_(0), pParent_(parent), objectName_(name)
+GameObject::GameObject(GameObject* parent, const std::string& name):childList_(0), pParent_(parent), objectName_(name), pCollider_(nullptr)
 {
 	state_ = { 0, 1, 1, 0 };
 	if (parent != nullptr)

@@ -2,15 +2,13 @@
 #include "Engine/GameObject.h"
 
 
-
 //■■シーンを管理するクラス
-class PlayScene : public GameObject
+class Stage : public GameObject
 {
-	
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
-	PlayScene(GameObject* parent);
+	Stage(GameObject* parent);
 
 	//初期化
 	void Initialize() override;
