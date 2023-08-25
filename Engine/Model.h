@@ -19,7 +19,7 @@ namespace Model
 		std::string fileName_;
 	};
 	int Load(std::string fileName);
-	void SetTransfome(int hModel, Transform transfome);
+	void SetTransform(int hModel, Transform transfome);
 
 	void Draw(int hModel);
 	void Release();

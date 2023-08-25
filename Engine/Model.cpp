@@ -33,7 +33,7 @@ int Model::Load(std::string fileName)
 
 	}
 
-	void Model::SetTransfome(int hModel, Transform transfome)
+	void Model::SetTransform(int hModel, Transform transfome)
 	{
 		modelList[hModel]->transfome_ = transfome;
 		//モデル番号はmodekListのインデックス

@@ -1,7 +1,7 @@
 #include "TestScene.h"
 #include"Engine/Input.h"
-
 #include "Engine/SceneManager.h"
+#include"Stage.h"
 //コンストラクタ
 TestScene::TestScene(GameObject* parent)
 	: GameObject(parent, "TestScene")
@@ -16,7 +16,7 @@ void TestScene::Initialize()
 //更新
 void TestScene::Update()
 {
-	
+	Instantiate<Stage>(this);
 }
 
 //描画
