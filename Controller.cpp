@@ -3,7 +3,7 @@
 #include "Engine/Camera.h"
 
 Controller::Controller(GameObject* parent)
-	: GameObject(parent, "Controller"), velocity_(XMVectorSet(0, 0, 0, 0)), hModel_(-1)
+	: GameObject(parent, "Controller"), velocity_(XMVectorSet(0, 0, 0, 0))
 {
 }
 

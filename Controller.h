@@ -5,7 +5,7 @@
 //■■シーンを管理するクラス
 class Controller : public GameObject
 {
-	int hModel_;
+	
 	XMVECTOR velocity_;
 public:
 	//コンストラクタ

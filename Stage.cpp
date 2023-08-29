@@ -2,16 +2,47 @@
 #include "Engine/Model.h"
 //コンストラクタ
 Stage::Stage(GameObject* parent)
-	: GameObject(parent, "Stage"), hModel_(-1)
+	: GameObject(parent, "Stage")
 {
+	for (int i = 0; i < MODEL_NUM; i++)
+	{
+		hModel_[i] = -1;
+	}
+	//テーブルを初期化
+	for (int x = 0; x < XSIZE; x++)
+	{
+		for (int z = 0; z < ZSIZE; z++)
+		{
+			table_[x][z] = 0;
+		}
+	}
 }
 
 //初期化
 void Stage::Initialize()
 {
+	string ModelName[] = {
+		"BoxDefault.fbx",
+		"BoxBrick.fbx",
+		"BoxGrass.fbx",
+		"BoxSand.fbx",
+		"BoxWater.fbx"
+	};
+	string name_base = "Assets\\";
 	//モデルデータのロード
-	hModel_ = Model::Load("Assets\\BoxDefault.fbx");
-	assert(hModel_ >= 0);
+	for (int i = 0; i < MODEL_NUM; i++)
+	{
+		hModel_[i] = Model::Load(name_base+ModelName[i]);
+		assert(hModel_[i] >= 0);
+	}
+	
+	for (int x = 0; x < XSIZE; x++)
+	{
+		for (int z = 0; z < ZSIZE; z++)
+		{
+			table_[x][z] = x%5;
+		}
+	}
 }
 
 //更新
@@ -22,14 +53,17 @@ void Stage::Update()
 //描画
 void Stage::Draw()
 {
-	for (int x = 0; x < 15; x++) 
+	for (int x = 0; x < XSIZE; x++)
 	{
-		for (int z = 0; z < 15; z++)
+		for (int z = 0; z < ZSIZE; z++)
 		{
-			transform_.position_.x = x;
-			transform_.position_.z = z;
-			Model::SetTransform(hModel_, transform_);
-			Model::Draw(hModel_);
+
+			int type = table_[x][z];
+			Transform trans;
+			trans.position_.x = x;
+			trans.position_.z = z;
+			Model::SetTransform(hModel_[type], trans);
+			Model::Draw(hModel_[type]);
 		}
 	}
 	
