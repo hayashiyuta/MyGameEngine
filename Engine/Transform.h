@@ -30,4 +30,13 @@ public:
 
 	//法線変形用行列を取得
 	XMMATRIX GetNormalMatrix();
+
+
 };
+inline XMFLOAT3 operator += (XMFLOAT3& p, const XMVECTOR& v)
+{
+	XMVECTOR pv = XMLoadFloat3(&p);
+	pv += v;
+	XMStoreFloat3(&p, pv);
+	return p;
+}

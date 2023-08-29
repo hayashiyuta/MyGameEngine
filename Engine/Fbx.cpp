@@ -1,6 +1,6 @@
 #include "Fbx.h"
 
-Fbx::Fbx():pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), polygonCount_(0),pMaterialList_(nullptr), materialCount_(0), vertexCount_(0)
+Fbx::Fbx():pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), polygonCount_(0)//,pMaterialList_(nullptr), materialCount_(0), vertexCount_(0)
 {
 
 }
@@ -217,7 +217,7 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 
 void    Fbx::Draw(Transform& transform)
 {
-	Direct3D::SetShader(SHADER_3D);
+	Direct3D::SetShader(SHADER_2D);
 	transform.Calclation();//トランスフォームを計算
 	
 	
