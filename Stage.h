@@ -11,11 +11,16 @@ namespace {
 	};
 }
 
+struct{
+	BLOCKTYPE type;
+	int HEGHT;
+}table_[XSIZE][ZSIZE];
+
 //■■シーンを管理するクラス
 class Stage : public GameObject
 {
 	int hModel_[MODEL_NUM];    //モデル番号
-	int table_[XSIZE][ZSIZE];
+	//int table_[XSIZE][ZSIZE];
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -32,4 +37,7 @@ public:
 
 	//開放
 	void Release() override;
+
+	void SetBlock(int _x, int _z, BLOCKTYPE _type);
+	void SetBlockHeght(int _x, int _z, int _height);
 };
