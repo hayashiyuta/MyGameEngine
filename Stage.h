@@ -38,6 +38,6 @@ public:
 	//ŠJ•ú
 	void Release() override;
 
-	void SetBlock(int _x, int _z, BLOCKTYPE _type);
-	void SetBlockHeght(int _x, int _z, int _height);
+	void SetBlock(int _x, int _z, BLOCKTYPE _type) { table_[_x][_z].type = _type; };
+	void SetBlockHeght(int _x, int _z, int _height) { table_[_x][_z].HEGHT = _height; };
 };

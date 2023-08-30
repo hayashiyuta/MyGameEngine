@@ -13,8 +13,8 @@ Stage::Stage(GameObject* parent)
 	{
 		for (int z = 0; z < ZSIZE; z++)
 		{
-			table_[x][z].type = BLOCKTYPE::DEFAULT;
-			table_[x][z].HEGHT = 2;
+			SetBlock(x, z, DEFAULT);
+			table_[x][z].HEGHT = 1;
 		}
 	}
 }
@@ -42,7 +42,7 @@ void Stage::Initialize()
 		for (int z = 0; z < ZSIZE; z++)
 		{
 			
-			table_[x][z].type = (BLOCKTYPE)(x % 5);
+			SetBlock(x,z, (BLOCKTYPE)(x % 5)) ;
 		}
 	}
 }
@@ -59,7 +59,7 @@ void Stage::Draw()
 	{
 		for (int z = 0; z < ZSIZE; z++)
 		{
-			for (int y = 0; y < table_[x][z].HEGHT; y++)
+			for (int y = 0; y < table_[x][z].HEGHT+1; y++)
 			{
 				int type_ = table_[x][z].type;
 
