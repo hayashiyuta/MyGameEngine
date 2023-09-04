@@ -16,6 +16,15 @@ using std::vector;
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
 //class Texture;//ポインタならこれでOK(ヘッダをインクルードしなくていい)
+
+struct RayCastData
+{
+	XMFLOAT4 start;
+	XMFLOAT4 dir;
+	bool hit;
+	double dist;
+};
+
 class Fbx
 {
 	//マテリアル
@@ -39,6 +48,11 @@ class Fbx
 		XMVECTOR normal;//法線ベクトル
 	};
 
+	
+
+	VERTEX* pVertices;
+	int** ppIndex_;
+
 	int vertexCount_;	//頂点数
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;	//マテリアルの個数
@@ -59,4 +73,6 @@ public:
 	void    InitMaterial(fbxsdk::FbxNode* pNode);
 	void    Draw(Transform& transform);
 	void    Release();
+
+	void RayCast(RayCastData& rayData);
 };
