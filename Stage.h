@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
-
+#include<Windows.h>
 namespace {
 	const int MODEL_NUM{ 5 };
 	const int XSIZE{ 15 };
@@ -21,6 +21,9 @@ class Stage : public GameObject
 {
 	int hModel_[MODEL_NUM];    //モデル番号
 	//int table_[XSIZE][ZSIZE];
+	int mode_;//0:上げる  1:下げる  2:種類を変える 
+	int select_;//種類
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -38,6 +41,8 @@ public:
 	//開放
 	void Release() override;
 
+	BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
+	
 	void SetBlock(int _x, int _z, BLOCKTYPE _type) { table_[_x][_z].type = _type; };
 	void SetBlockHeght(int _x, int _z, int _height) { table_[_x][_z].HEGHT = _height; };
 };

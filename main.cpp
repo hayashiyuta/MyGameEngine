@@ -9,6 +9,7 @@
 #include<DirectXCollision.h>
 
 #include"resource.h"
+#include"Stage.h"
 
 #pragma comment(lib, "winmm.lib")
 //定数宣言
@@ -176,6 +177,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	
 	return 0;
 }
+
+//プロシージャはクラスのメンバに含まれない
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -192,10 +195,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //ダイアログプロシージャ(何か処理をしたらTRUE、何もしなかったらFALSEを返す)
 BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
-	switch (msg)
-	{
-
-	}
-	return FALSE;
+	Stage* pStage = (Stage*)pRootJob->FindObject("Stage");
+	return pStage->DialogProc(hDlg, msg, wp, lp);
 	//LOWORD(wp)
+
 }
