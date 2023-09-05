@@ -285,7 +285,7 @@ void    Fbx::Release()
 	//SAFE_RELEASE(pVertexBuffer_);
 }
 
-void Fbx::RayCast(RayCastData& rayData)
+/*void Fbx::RayCast(RayCastData& rayData)
 {
 	for (int material = 0; material < materialCount_; material++)
 	{
@@ -310,4 +310,4 @@ void Fbx::RayCast(RayCastData& rayData)
 			}
 		}
 	}
-}
+}*/

@@ -8,6 +8,8 @@
 #include"Engine/Model.h"
 #include<DirectXCollision.h>
 
+#include"resource.h"
+
 #pragma comment(lib, "winmm.lib")
 //定数宣言
 const char* WIN_GAME_NAME = "サンプルゲーム";
@@ -20,7 +22,7 @@ RootJob* pRootJob = nullptr;
 
 //プロトタイプ宣言(ウィンドウプロシージャ)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
+BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
 
 
 //エントリーポイント　プログラムのスタート地点
@@ -93,7 +95,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//GameObject
 	
 	
-	
+	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
+	//MAKEINTRESOURCE  IDD_DIALOG1の番号を求める
+
 
   //メッセージループ（何か起きるのを待つ）
 	
@@ -185,3 +189,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);//ウィンドウの拡縮などのデフォルトの動き
 }
 	
+//ダイアログプロシージャ(何か処理をしたらTRUE、何もしなかったらFALSEを返す)
+BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
+{
+	switch (msg)
+	{
+
+	}
+	return FALSE;
+	//LOWORD(wp)
+}
