@@ -84,6 +84,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
+
+	//Fbx* pFbx = new Fbx;
+	//pFbx->Load("Assets/BoxBrick.fbx");
+	//RayCastData data;
+	//data.
 	
 	Camera::Initialize();
 	Camera::SetTarget(XMFLOAT3(0,0, 0));
@@ -184,6 +189,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
+	case WM_MOUSEMOVE:
+		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);  //ウィンドウが閉じられたらプログラム終了 これをなくすとプログラムが終了しない
 		return 0;

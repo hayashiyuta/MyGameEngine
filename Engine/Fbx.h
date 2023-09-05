@@ -22,7 +22,7 @@ struct RayCastData
 	XMFLOAT4 start;
 	XMFLOAT4 dir;
 	bool hit;
-	double dist;
+	float dist;
 };
 
 class Fbx
@@ -50,7 +50,7 @@ class Fbx
 
 	
 
-	VERTEX* pVertices;
+	VERTEX* pVertices_;
 	int** ppIndex_;
 
 	int vertexCount_;	//í∏ì_êî
@@ -74,5 +74,5 @@ public:
 	void    Draw(Transform& transform);
 	void    Release();
 
-	//void RayCast(RayCastData& rayData);
+	void RayCast(RayCastData& rayData);
 };
