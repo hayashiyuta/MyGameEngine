@@ -26,7 +26,8 @@ namespace Direct3D
 	};
 	
 	SHADER_BUNDLE shaderBundle[SHADER_MAX];
-
+	int scrWidth;
+	int scrHeight;
 }
 
 //定数宣言
@@ -40,6 +41,8 @@ const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
 HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 
 {
+	scrWidth = winW;
+	scrHeight = winH;
 	///////////////////////////いろいろ準備するための設定///////////////////////////////
 	//いろいろな設定項目をまとめた構造体
 	DXGI_SWAP_CHAIN_DESC scDesc;

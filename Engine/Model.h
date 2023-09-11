@@ -24,4 +24,5 @@ namespace Model
 	void Draw(int hModel);
 	void Release();
 	//モデルのポインタをぶち込んでおくベクタ
+	void RayCast(int hModel_, RayCastData& rayData);
 }; 

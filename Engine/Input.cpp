@@ -11,7 +11,7 @@ namespace Input
 	LPDIRECTINPUTDEVICE8	pMouseDevice_;	//デバイスオブジェクト
 	DIMOUSESTATE mouseState_;				//マウスの状態
 	DIMOUSESTATE prevMouseState_;			//前フレームのマウスの状態
-	POINT mousePos_;							//マウスカーソルの位置
+	XMFLOAT3 mousePosition_;							//マウスカーソルの位置
 	
 
 	void Initialize(HWND hWnd)
@@ -23,6 +23,10 @@ namespace Input
 		pDInput->CreateDevice(GUID_SysKeyboard, &pKeyDevice, nullptr);
 		pKeyDevice->SetDataFormat(&c_dfDIKeyboard);
 		pKeyDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
+
+		pDInput->CreateDevice(GUID_SysMouse, &pMouseDevice_, nullptr);
+		pMouseDevice_->SetDataFormat(&c_dfDIMouse);
+		pMouseDevice_->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
 	}
 
 	void Update()
@@ -71,10 +75,12 @@ namespace Input
 	void Release()
 	{
 		SAFE_RELEASE(pDInput);
+		SAFE_RELEASE(pKeyDevice);
 	}
 
 	/////////////////////////////　マウス情報取得　//////////////////////////////////
 
+	
 	//マウスのボタンが押されているか調べる
 	bool IsMouseButton(int buttonCode)
 	{
@@ -96,7 +102,6 @@ namespace Input
 		}
 		return false;
 	}
-
 	//マウスのボタンを今放したか調べる
 	bool IsMouseButtonUp(int buttonCode)
 	{
@@ -108,27 +113,30 @@ namespace Input
 		return false;
 	}
 
+	
 	//マウスカーソルの位置を取得
 	XMFLOAT3 GetMousePosition()
 	{
-		XMFLOAT3 result = XMFLOAT3((float)mousePos_.x, (float)mousePos_.y, 0);
-		return result;
+		//XMFLOAT3 result = XMFLOAT3((float)mousePosition_.x, (float)mousePosition_.y, 0);
+		return mousePosition_;
 	}
-
+	
 	//マウスカーソルの位置をセット
 	void SetMousePosition(int x, int y)
 	{
-		mousePos_.x = x;
-		mousePos_.y = y;
+		mousePosition_.x = x;
+		mousePosition_.y = y;
 		std::string resStr = std::to_string(x) + "," + std::to_string(y);
 		OutputDebugString(resStr.c_str());
 	}
 
-
+	
 	//そのフレームでのマウスの移動量を取得
 	XMFLOAT3 GetMouseMove()
 	{
-		XMFLOAT3 result = XMFLOAT3((float)mouseState_.lX, (float)mouseState_.lY, (float)mouseState_.lZ);
+		XMFLOAT3 result = XMFLOAT3((float)mouseState_.lX,
+			                       (float)mouseState_.lY, 
+			                       (float)mouseState_.lZ);
 		return result;
 	}
 

@@ -6,24 +6,24 @@
 #include<vector>
 #include "Transform.h"
 #include"Direct3D.h"
-#include"Transform.h"
+
 #include"Camera.h"
-#include"Texture.h"
 
 using std::vector;
 
 #pragma comment(lib, "LibFbxSDK-MD.lib")
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
-//class Texture;//ポインタならこれでOK(ヘッダをインクルードしなくていい)
+class Texture;//ポインタならこれでOK(ヘッダをインクルードしなくていい)
 
 struct RayCastData
 {
 	XMFLOAT4 start;
 	XMFLOAT4 dir;
 	bool hit;
-	float dist;
+	float dist = 0;
 };
+
 
 class Fbx
 {

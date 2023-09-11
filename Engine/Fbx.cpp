@@ -1,7 +1,8 @@
 #include "Fbx.h"
 #include<DirectXCollision.h>
+#include"Texture.h"
 
-
+using namespace DirectX;
 Fbx::Fbx():pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), polygonCount_(0)//,pMaterialList_(nullptr), materialCount_(0), vertexCount_(0)
 {
 
@@ -280,16 +281,18 @@ void    Fbx::Draw(Transform& transform)
 
 void    Fbx::Release()
 {
-	//SAFE_RELEASE(pConstantBuffer_);
+	SAFE_DELETE(pMaterialList_);
+	SAFE_RELEASE(pConstantBuffer_);
 	//SAFE_RELEASE(pIndexBuffer_);
-	//SAFE_RELEASE(pVertexBuffer_);
+	SAFE_RELEASE(pVertexBuffer_);
+	
 }
 
-/*void Fbx::RayCast(RayCastData& rayData)
+void Fbx::RayCast(RayCastData& rayData)
 {
 	for (int material = 0; material < materialCount_; material++)
 	{
-		for (int poly = 0; poly < index_Count_[materialCount_]/3; poly++)
+		for (int poly = 0; poly < index_Count_[material]/3; poly++)
 		{
 			//int i0 = ppIndex_[material][poly * 3 + 0];
 			//int i1 = ppIndex_[material][poly * 3 + 1];
@@ -299,11 +302,13 @@ void    Fbx::Release()
 			XMVECTOR  v1 = pVertices_[ppIndex_[material][poly * 3 + 1]].position;
 			XMVECTOR  v2 = pVertices_[ppIndex_[material][poly * 3 + 2]].position;
 
-			XMVECTOR start = XMLoadFloat3(rayData.start);
-			XMVECTOR dir = rayData.dir;
-
-			float dist;
-			rayData.hit = TriangleTests::Intersects(start, dir, v0, v1, v2);
+			XMVECTOR start = XMLoadFloat4(&rayData.start);
+			//XMVECTOR startN = XMVector4Normalize(start);
+			XMVECTOR dir = XMLoadFloat4(&rayData.dir);
+			//XMVECTOR dirN = XMVector4Normalize(dir);
+			//float dist;
+			rayData.hit = DirectX::TriangleTests::Intersects(start, 
+				                                             XMVector4Normalize(dir), v0, v1, v2, rayData.dist);
 
 			if (rayData.hit)
 			{
@@ -311,4 +316,4 @@ void    Fbx::Release()
 			}
 		}
 	}
-}*/
+}

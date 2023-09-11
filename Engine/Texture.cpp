@@ -49,7 +49,7 @@ HRESULT Texture::Load(std::string fileName)
 
 void Texture::Release()
 {
-	pSRV_->Release();
-	pSampler_->Release();
+	SAFE_RELEASE(pSRV_);
+	SAFE_RELEASE(pSampler_);
 }
 

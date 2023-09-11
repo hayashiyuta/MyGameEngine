@@ -85,7 +85,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//Direct3D‰Šú‰»
 	Direct3D::Initialize(winW, winH, hWnd);
 
-	//Fbx* pFbx = new Fbx;
+	Fbx* pFbx = new Fbx;
 	//pFbx->Load("Assets/BoxBrick.fbx");
 	//RayCastData data;
 	//data.
