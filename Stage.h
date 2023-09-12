@@ -12,9 +12,11 @@ namespace {
 	};
 }
 
-struct{
+struct {
 	BLOCKTYPE type;
 	int HEGHT;
+	float raydist;
+	
 }table_[XSIZE][ZSIZE];
 
 //■■シーンを管理するクラス
@@ -24,6 +26,8 @@ class Stage : public GameObject
 	//int table_[XSIZE][ZSIZE];
 	int mode_;//0:上げる  1:下げる  2:種類を変える 
 	int select_;//種類
+	float distmin = 999.0f;
+	
 
 public:
 	//コンストラクタ

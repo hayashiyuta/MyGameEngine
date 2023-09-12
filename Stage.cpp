@@ -3,6 +3,7 @@
 #include"Engine/Input.h"
 #include"Engine/Direct3D.h"
 #include"resource.h"
+#include"Engine/Fbx.h"
 //コンストラクタ
 Stage::Stage(GameObject* parent)
 	: GameObject(parent, "Stage"),mode_(0),select_(0)
@@ -16,8 +17,9 @@ Stage::Stage(GameObject* parent)
 	{
 		for (int z = 0; z < ZSIZE; z++)
 		{
-			SetBlock(x, z, DEFAULT);
-			table_[x][z].HEGHT = 1;
+			SetBlock(x, z, (BLOCKTYPE)(0));
+			//table_[x][z].HEGHT = 1;
+			SetBlockHeght(x, z, 0);
 		}
 	}
 }
@@ -111,15 +113,22 @@ void Stage::Update()
 				
 				if (data.hit)
 				{
-					
-					if (Input::IsMouseButtonDown(0))
-					{
-						//何らかの処理
-						table_[x][z].HEGHT++;
-						break;
+					table_[x][z].raydist = data.dist;
 
-						return;
+					if (table_[x][z].raydist < distmin)
+					{
+						if (Input::IsMouseButtonDown(0))
+						{
+							//何らかの処理
+							table_[x][z].HEGHT++;
+							break;
+
+							return;
+						}
+						distmin = table_[x][z].raydist;
 					}
+
+					
 				}
 			}
 		}
