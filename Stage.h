@@ -26,7 +26,7 @@ class Stage : public GameObject
 	//int table_[XSIZE][ZSIZE];
 	int mode_;//0:è„Ç∞ÇÈ  1:â∫Ç∞ÇÈ  2:éÌóﬁÇïœÇ¶ÇÈ 
 	int select_;//éÌóﬁ
-	float distmin = 999.0f;
+	
 	
 
 public:
@@ -47,7 +47,7 @@ public:
 	void Release() override;
 
 	BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
-	
+	void Table_Reset();
 	void SetBlock(int _x, int _z, BLOCKTYPE _type) { table_[_x][_z].type = _type; };
 	void SetBlockHeght(int _x, int _z, int _height) { table_[_x][_z].HEGHT = _height; };
 };

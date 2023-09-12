@@ -12,16 +12,8 @@ Stage::Stage(GameObject* parent)
 	{
 		hModel_[i] = -1;
 	}
-	//テーブルを初期化
-	for (int x = 0; x < XSIZE; x++)
-	{
-		for (int z = 0; z < ZSIZE; z++)
-		{
-			SetBlock(x, z, (BLOCKTYPE)(0));
-			//table_[x][z].HEGHT = 1;
-			SetBlockHeght(x, z, 0);
-		}
-	}
+	
+	Table_Reset();
 }
 
 //初期化
@@ -58,7 +50,8 @@ void Stage::Update()
 	
 	float w = (float)(Direct3D::scrWidth /2.0f);//画面幅の半分
 	float h = (float)(Direct3D::scrHeight/2.0f);//画面高さの半分
-
+	float distmin_x = 999.0f;
+	float distmin_z = 999.0f;
 	//0ffsetx,yは0
 	//minZ =0 maxZ =1
 
@@ -91,12 +84,16 @@ void Stage::Update()
 	//④　③にinvVP、invProj、invViewをかける
 	vMousePosB = XMVector3TransformCoord(vMousePosB, invVP * invProj * invView);
 
+	
+
+
 	for (int x = 0; x < XSIZE; x++)
 	{
 		for (int z = 0; z < ZSIZE; z++)
 		{
 			for (int y = 0; y < table_[x][z].HEGHT + 1; y++)
 			{
+
 				//⑤　②から④に向かってレイを打つ
 				RayCastData data;
 				XMStoreFloat4(&data.start, vMousePosF);
@@ -109,33 +106,67 @@ void Stage::Update()
 
 				Model::RayCast(hModel_[0], data);
 				//⑥　レイが当たったらブレークポイントで止める
-				
+				if (Input::IsKeyDown(DIK_R))//リセット(更地に戻す)
+				{
+					Table_Reset();
+				}
 				
 				if (data.hit)
 				{
 					table_[x][z].raydist = data.dist;
-
-					if (table_[x][z].raydist < distmin)
-					{
-						if (Input::IsMouseButtonDown(0))
+					table_[z][x].raydist = data.dist;
+					if (Input::IsMouseButtonDown(0))
 						{
-							//何らかの処理
-							table_[x][z].HEGHT++;
-							break;
-
-							return;
+						//何らかの処理
+						if (table_[x][z].raydist < distmin_x)
+						{
+							switch (mode_)//地形の編集
+							{
+							case 0:
+								table_[x][z].HEGHT++;
+								break;
+							case 1:
+								table_[x][z].HEGHT--;
+								break;
+							case 2:
+								switch (select_)//ブロックの種類
+								{
+								case 0:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								case 1:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								case 2:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								case 3:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								case 4:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								default:
+									break;
+								}
+								break;
+							default:
+								break;
+							}
 						}
-						distmin = table_[x][z].raydist;
-					}
-
-					
+						distmin_x = table_[x][z].raydist;
+						distmin_z = table_[z][x].raydist;
+						/*if (table_[z][x].raydist < distmin_z)
+						{
+							
+						}*/
+						break;
+						}
+					return;
 				}
 			}
 		}
 	}
-
-	
-	
 }
 
 //描画
@@ -192,4 +223,18 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 	}
 	return FALSE;
 	//LOWORD(wp)
+}
+
+void Stage::Table_Reset()
+{
+	//テーブルを初期化
+	for (int x = 0; x < XSIZE; x++)
+	{
+		for (int z = 0; z < ZSIZE; z++)
+		{
+			SetBlock(x, z, (BLOCKTYPE)(x % 5));
+			//table_[x][z].HEGHT = 1;
+			SetBlockHeght(x, z, 0);
+		}
+	}
 }
