@@ -114,55 +114,51 @@ void Stage::Update()
 				if (data.hit)
 				{
 					table_[x][z].raydist = data.dist;
-					table_[z][x].raydist = data.dist;
-					if (Input::IsMouseButtonDown(0))
+					return;
+				}
+				if (Input::IsMouseButtonDown(0))
+				{
+					//何らかの処理
+					if (table_[x][z].raydist < distmin_x)
+					{
+						switch (mode_)//地形の編集
 						{
-						//何らかの処理
-						if (table_[x][z].raydist < distmin_x)
-						{
-							switch (mode_)//地形の編集
+						case 0:
+							table_[x][z].HEGHT++;
+							break;
+						case 1:
+							table_[x][z].HEGHT--;
+							break;
+						case 2:
+							switch (select_)//ブロックの種類
 							{
 							case 0:
-								table_[x][z].HEGHT++;
+								SetBlock(x, z, (BLOCKTYPE)(select_));
 								break;
 							case 1:
-								table_[x][z].HEGHT--;
+								SetBlock(x, z, (BLOCKTYPE)(select_));
 								break;
 							case 2:
-								switch (select_)//ブロックの種類
-								{
-								case 0:
-									SetBlock(x, z, (BLOCKTYPE)(select_));
-									break;
-								case 1:
-									SetBlock(x, z, (BLOCKTYPE)(select_));
-									break;
-								case 2:
-									SetBlock(x, z, (BLOCKTYPE)(select_));
-									break;
-								case 3:
-									SetBlock(x, z, (BLOCKTYPE)(select_));
-									break;
-								case 4:
-									SetBlock(x, z, (BLOCKTYPE)(select_));
-									break;
-								default:
-									break;
-								}
+								SetBlock(x, z, (BLOCKTYPE)(select_));
+								break;
+							case 3:
+								SetBlock(x, z, (BLOCKTYPE)(select_));
+								break;
+							case 4:
+								SetBlock(x, z, (BLOCKTYPE)(select_));
 								break;
 							default:
 								break;
 							}
+							break;
+						default:
+							break;
 						}
-						distmin_x = table_[x][z].raydist;
-						distmin_z = table_[z][x].raydist;
-						/*if (table_[z][x].raydist < distmin_z)
-						{
-							
-						}*/
-						break;
-						}
-					return;
+					}
+					distmin_x = table_[x][z].raydist;
+
+
+					break;
 				}
 			}
 		}
