@@ -14,8 +14,9 @@ namespace {
 
 struct {
 	BLOCKTYPE type;
-	int HEGHT;
+	int HEGHT = 0;
 	float raydist;
+	bool IsRay;
 	
 }table_[XSIZE][ZSIZE];
 
@@ -26,7 +27,7 @@ class Stage : public GameObject
 	//int table_[XSIZE][ZSIZE];
 	int mode_;//0:ã‚°‚é  1:‰º‚°‚é  2:í—Ş‚ğ•Ï‚¦‚é 
 	int select_;//í—Ş
-	
+	XMFLOAT3 keepPos;
 	
 
 public:

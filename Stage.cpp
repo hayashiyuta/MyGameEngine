@@ -47,11 +47,10 @@ void Stage::Initialize()
 //更新
 void Stage::Update()
 {
+	float w = (float)(Direct3D::scrWidth / 2.0f);//画面幅の半分
+	float h = (float)(Direct3D::scrHeight / 2.0f);//画面高さの半分
+	float distmin = 999.0f;
 	
-	float w = (float)(Direct3D::scrWidth /2.0f);//画面幅の半分
-	float h = (float)(Direct3D::scrHeight/2.0f);//画面高さの半分
-	float distmin_x = 999.0f;
-	float distmin_z = 999.0f;
 	//0ffsetx,yは0
 	//minZ =0 maxZ =1
 
@@ -62,14 +61,14 @@ void Stage::Update()
 		 0,   0,  1, 0,
 		 w,   h,  0, 1
 	};
-	
+
 	//ビューポート
-	XMMATRIX invVP = XMMatrixInverse(nullptr,vp);
+	XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
 	//プロジェクション変換
-	XMMATRIX invProj = XMMatrixInverse(nullptr,Camera::GetProjectionMatrix());
+	XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
 	//ビュー変換
 
-	XMMATRIX invView = XMMatrixInverse(nullptr,Camera::GetViewMatrix());
+	XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
 	XMFLOAT3 mousePosFront = Input::GetMousePosition();//マウスポジゲット
 	mousePosFront.z = 0.0f;
 	XMFLOAT3 mousePosBack = Input::GetMousePosition();
@@ -84,7 +83,7 @@ void Stage::Update()
 	//④　③にinvVP、invProj、invViewをかける
 	vMousePosB = XMVector3TransformCoord(vMousePosB, invVP * invProj * invView);
 
-	
+
 
 
 	for (int x = 0; x < XSIZE; x++)
@@ -110,56 +109,66 @@ void Stage::Update()
 				{
 					Table_Reset();
 				}
-				
+				for (int x = 0; x < XSIZE; x++)
+				{
+					for (int z = 0; z < ZSIZE; z++)
+					{
+						table_[x][z].raydist = 999;
+					}
+				}
 				if (data.hit)
 				{
 					table_[x][z].raydist = data.dist;
-					return;
-				}
-				if (Input::IsMouseButtonDown(0))
-				{
-					//何らかの処理
-					if (table_[x][z].raydist < distmin_x)
+					if (Input::IsMouseButtonDown(0))
 					{
-						switch (mode_)//地形の編集
+						//何らかの処理
+						if (table_[x][z].raydist < distmin)
 						{
-						case 0:
-							table_[x][z].HEGHT++;
-							break;
-						case 1:
-							table_[x][z].HEGHT--;
-							break;
-						case 2:
-							switch (select_)//ブロックの種類
+							distmin = table_[x][z].raydist;
+							switch (mode_)//地形の編集
 							{
 							case 0:
-								SetBlock(x, z, (BLOCKTYPE)(select_));
+								table_[x][z].HEGHT++;
 								break;
 							case 1:
-								SetBlock(x, z, (BLOCKTYPE)(select_));
+								if(table_[x][z].HEGHT > 0)
+									table_[x][z].HEGHT--;
 								break;
 							case 2:
-								SetBlock(x, z, (BLOCKTYPE)(select_));
-								break;
-							case 3:
-								SetBlock(x, z, (BLOCKTYPE)(select_));
-								break;
-							case 4:
-								SetBlock(x, z, (BLOCKTYPE)(select_));
+								switch (select_)//ブロックの種類
+								{
+								case 0:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								case 1:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								case 2:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								case 3:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								case 4:
+									SetBlock(x, z, (BLOCKTYPE)(select_));
+									break;
+								default:
+									break;
+								}
 								break;
 							default:
 								break;
 							}
-							break;
-						default:
-							break;
 						}
+
+
+
+						break;
 					}
-					distmin_x = table_[x][z].raydist;
-
-
-					break;
+					return;
 				}
+				
+				
 			}
 		}
 	}
