@@ -1,11 +1,14 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include<vector>
 
 #include<Windows.h>
 namespace {
 	const int MODEL_NUM{ 5 };
 	const int XSIZE{ 15 };
 	const int ZSIZE{ 15 };
+	const int XDATA{ 30 };
+	const int ZDATA{ 30 };
 	enum BLOCKTYPE
 	{
 		DEFAULT,BRICK,GRASS,SAND,WATER
@@ -27,8 +30,9 @@ class Stage : public GameObject
 	//int table_[XSIZE][ZSIZE];
 	int mode_;//0:上げる  1:下げる  2:種類を変える 
 	int select_;//種類
+	int menu_mode_;//0:新規作成 1:開く 2:保存
 	XMFLOAT3 keepPos;
-	
+	int savedata_[XDATA][ZDATA];
 
 public:
 	//コンストラクタ
@@ -48,6 +52,7 @@ public:
 	void Release() override;
 
 	BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
+	void Save();
 	void Table_Reset();
 	void SetBlock(int _x, int _z, BLOCKTYPE _type) { table_[_x][_z].type = _type; };
 	void SetBlockHeght(int _x, int _z, int _height) { table_[_x][_z].HEGHT = _height; };
