@@ -222,10 +222,13 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 
 		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
 
+
 		return TRUE;
 	case WM_COMMAND:
 		mode_ = LOWORD(wp) - IDC_RADIO_UP;
 		select_ = (int)SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+		
+
 	}
 	return FALSE;
 	//LOWORD(wp)
@@ -264,14 +267,54 @@ void Stage::Save()
 		FILE_ATTRIBUTE_NORMAL,//属性とフラグ（設定なし）
 		NULL);        //拡張属性（なし）
 	
-	/*for (int x = 0; x < XSIZE; x++)
+	for (int x = 0; x < XSIZE; x++)
 	{
 		for (int z = 0; z < ZSIZE; z++)
 		{
-			savedata_[x][z] = 
+			mapdata_ = mapdata_ + std::to_string(table_[x][z].HEGHT) 
+				                + std::to_string(table_[x][z].type);
 		}
-	}*/
+	}
 
+	DWORD dwBytes = 0;  //書き込み位置
+	WriteFile(
+		hFile,                   //ファイルハンドル
+		mapdata_.c_str(),                  //保存するデータ（文字列）
+		(DWORD)strlen(mapdata_.c_str()),   //書き込む文字数
+		&dwBytes,                //書き込んだサイズを入れる変数
+		NULL);                   //オーバーラップド構造体（今回は使わない）
+
+	CloseHandle(hFile);
+}
+
+void Stage::Open(char fileName[MAX_PATH])
+{
+	HANDLE hFile; 
+	hFile = CreateFile(
+		fileName,     //ファイル名
+		GENERIC_READ,//アクセスモード（読み込み用）
+		0,            //共有（なし）
+		NULL,         //セキュリティ属性（継承しない）
+		OPEN_EXISTING,//作成方法
+		FILE_ATTRIBUTE_NORMAL,//属性とフラグ（設定なし）
+		NULL);        //拡張属性（なし）
+
+	//ファイルのサイズを取得
+	DWORD fileSize = GetFileSize(hFile, NULL);
+	//ファイルのサイズ分メモリを確保
+	char* data;
+	data = new char[fileSize];
+
+	DWORD dwBytes = 0; //読み込み位置
+
+	ReadFile(
+		hFile,     //ファイルハンドル
+		data,      //データを入れる変数
+		fileSize,  //読み込むサイズ
+		&dwBytes,  //読み込んだサイズ
+		NULL);     //オーバーラップド構造体（今回は使わない）
+
+	CloseHandle(hFile);
 }
 
 void Stage::Table_Reset()
