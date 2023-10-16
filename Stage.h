@@ -33,7 +33,8 @@ class Stage : public GameObject
 	int menu_mode_;//0:新規作成 1:開く 2:保存
 	XMFLOAT3 keepPos;
 	string mapdata_;
-
+	string comma_ = ",";
+	
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -53,7 +54,7 @@ public:
 
 	BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
 	void Save();
-	void Open(char fileName[MAX_PATH]);
+	void Open();
 	void Table_Reset();
 	void SetBlock(int _x, int _z, BLOCKTYPE _type) { table_[_x][_z].type = _type; };
 	void SetBlockHeght(int _x, int _z, int _height) { table_[_x][_z].HEGHT = _height; };

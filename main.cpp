@@ -188,6 +188,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int a = 0;
 	switch (msg)
 	{
 	case WM_MOUSEMOVE:
@@ -196,7 +197,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);  //ウィンドウが閉じられたらプログラム終了 これをなくすとプログラムが終了しない
 		return 0;
-	
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case ID_MENU_NEW:
+			a++;
+			break;
+		case ID_MENU_OPEN:
+			a++;
+			((Stage*)pRootJob->FindObject("Stage"))->Open();
+			break;
+		case ID_MENU_SAVE:
+			((Stage*)pRootJob->FindObject("Stage"))->Save();
+			return 0;
+		default:
+			break;
+		}
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);//ウィンドウの拡縮などのデフォルトの動き
 }
