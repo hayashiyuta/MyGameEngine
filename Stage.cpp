@@ -1,4 +1,5 @@
 #include<Windows.h>
+#include<stdio.h>
 #include "Stage.h"
 #include "Engine/Model.h"
 #include"Engine/Input.h"
@@ -271,10 +272,9 @@ void Stage::Save()
 	{
 		for (int z = 0; z < ZSIZE; z++)
 		{
-			mapdata_ = mapdata_ + std::to_string(table_[x][z].HEGHT) 
-				                + comma_
-				                + std::to_string(table_[x][z].type)
-				                + comma_;
+			mapdata_ = mapdata_ + std::to_string(table_[x][z].HEGHT)
+				+ std::to_string(table_[x][z].type);
+				                
 		}
 	}
 
@@ -337,6 +337,18 @@ void Stage::Open()
 		NULL);     //オーバーラップド構造体（今回は使わない）
 
 	CloseHandle(hFile);
+
+	for(int x = 0; x < XSIZE; x++)
+	{
+		for (int z = 0; z < ZSIZE; z++)
+		{
+			if ((x * z ) % 2 != 0)
+			{
+				table_[x][z].HEGHT = data[x * XSIZE + z];
+			}
+		}
+	}
+
 }
 
 void Stage::Table_Reset()
