@@ -342,13 +342,13 @@ void Stage::Open()
 	{
 		for (int z = 0; z < ZSIZE; z++)
 		{
-			if ((x * z ) % 2 != 0)
+			if ((x * z) % 2 == 0)
 			{
-				table_[x][z].HEGHT = data[x * XSIZE + z];
+				table_[x][z].HEGHT = data[0];
 			}
+			SetBlock(x, z, (BLOCKTYPE)(data[0]));
 		}
 	}
-
 }
 
 void Stage::Table_Reset()
