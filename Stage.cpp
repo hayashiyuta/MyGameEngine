@@ -344,7 +344,7 @@ void Stage::Open()
 		{
 			if ((x * z) % 2 == 0)
 			{
-				table_[x][z].HEGHT = data[0];
+				table_[x][z].HEGHT = data[(x*z)%2];
 			}
 			SetBlock(x, z, (BLOCKTYPE)(data[0]));
 		}
