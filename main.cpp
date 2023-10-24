@@ -210,6 +210,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case ID_MENU_SAVE:
 			((Stage*)pRootJob->FindObject("Stage"))->Save();
 			return 0;
+		case ID_MENU_END:
+			PostQuitMessage(0);  
+			return 0;
 		default:
 			break;
 		}

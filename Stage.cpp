@@ -14,7 +14,6 @@ Stage::Stage(GameObject* parent)
 	{
 		hModel_[i] = -1;
 	}
-	
 	Table_Reset();
 }
 
@@ -273,8 +272,7 @@ void Stage::Save()
 		for (int z = 0; z < ZSIZE; z++)
 		{
 			mapdata_ = mapdata_ + std::to_string(table_[x][z].HEGHT)
-				+ std::to_string(table_[x][z].type);
-				                
+				+ std::to_string(table_[x][z].type);     
 		}
 	}
 
