@@ -132,7 +132,7 @@ void Stage::Update()
 								table_[x][z].HEGHT++;
 								break;
 							case 1:
-								if(table_[x][z].HEGHT > 0)
+								if (table_[x][z].HEGHT > 0)
 									table_[x][z].HEGHT--;
 								break;
 							case 2:
@@ -161,15 +161,10 @@ void Stage::Update()
 								break;
 							}
 						}
-
-
-
 						break;
 					}
 					return;
 				}
-				
-				
 			}
 		}
 	}
@@ -193,10 +188,8 @@ void Stage::Draw()
 				Model::SetTransform(hModel_[type_], trans);
 				Model::Draw(hModel_[type_]);
 			}
-			
 		}
 	}
-	
 }
 
 //開放
@@ -296,7 +289,7 @@ void Stage::Open()
 	ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
 	ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
 	ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
-		TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
+		              TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
 	ofn.lpstrFile = fileName;               	//ファイル名
 	ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
 	ofn.Flags = OFN_FILEMUSTEXIST;   		//フラグ（同名ファイルが存在したら上書き確認）
@@ -336,17 +329,30 @@ void Stage::Open()
 
 	CloseHandle(hFile);
 
-	for(int x = 0; x < XSIZE; x++)
+	for (int i = 0; i < sizeof(data)/sizeof(char); i++)
 	{
-		for (int z = 0; z < ZSIZE; z++)
+		if (i % 2 == 0)
 		{
-			if ((x * z) % 2 == 0)
+			for (int x = 0; x < XSIZE; x++)
 			{
-				table_[x][z].HEGHT = data[(x*z)%2];
+				for (int z = 0; z < ZSIZE; z++)
+				{
+					table_[x][z].HEGHT = data[i];
+				}
 			}
-			SetBlock(x, z, (BLOCKTYPE)(data[0]));
+		}
+		if (i % 2 == 1)
+		{
+			for (int x = 0; x < XSIZE; x++)
+			{
+				for (int z = 0; z < ZSIZE; z++)
+				{
+					SetBlock(x, z, (BLOCKTYPE)(data[i]));
+				}
+			}
 		}
 	}
+	
 }
 
 void Stage::Table_Reset()
