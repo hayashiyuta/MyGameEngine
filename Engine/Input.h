@@ -18,7 +18,13 @@ namespace Input
 	bool IsKeyUp(int keyCode);
 	//マウス
 	
+	//マウスのボタンが押されているか調べる
 	bool IsMouseButton(int buttonCode);
+	
+
+	LONG IsMouseWheel();
+	
+
 	bool IsMouseButtonDown(int buttonCode);
 	bool IsMouseButtonUp(int buttonCode);
 	XMFLOAT3 GetMousePosition();

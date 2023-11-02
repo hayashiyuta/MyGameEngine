@@ -33,7 +33,7 @@ class Stage : public GameObject
 	int menu_mode_;//0:新規作成 1:開く 2:保存
 	XMFLOAT3 keepPos;
 	string mapdata_;
-	string comma_ = ",";
+	
 	
 public:
 	//コンストラクタ

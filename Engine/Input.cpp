@@ -80,8 +80,6 @@ namespace Input
 
 	/////////////////////////////　マウス情報取得　//////////////////////////////////
 
-	
-	//マウスのボタンが押されているか調べる
 	bool IsMouseButton(int buttonCode)
 	{
 		//押してる
@@ -113,6 +111,11 @@ namespace Input
 		return false;
 	}
 
+	LONG IsMouseWheel()
+	{
+		if (mouseState_.lZ != 0) { return mouseState_.lZ; }
+		return false;
+	}
 	
 	//マウスカーソルの位置を取得
 	XMFLOAT3 GetMousePosition()
