@@ -71,6 +71,7 @@ void Controller::Update()
 	transform_.rotate_.x = rotNum_x;
 	XMVECTOR cameraBase = XMLoadFloat3(&cameraPos);
 	static XMVECTOR wheelcam = XMLoadFloat3(&cameraWheel);
+	XMVECTOR wheelcambase = XMLoadFloat3(&cameraWheelBase);
 	XMVECTOR wheelcamplase = XMLoadFloat3(&cameraWheelPlas);
 	XMVECTOR wheelplaselimit = XMLoadFloat3(&cameraWheelLimit);
 
@@ -88,12 +89,18 @@ void Controller::Update()
 
 	if (Input::IsMouseWheel() > 0)
 	{
-		//if(XMVector3LessOrEqual())
-		wheelcam += wheelCamVec;
+		if (XMVector3LessOrEqual(wheelcam, wheelplaselimit) == true)
+		{
+			wheelcam += wheelCamVec;
+		}
 	}
 	if (Input::IsMouseWheel() < 0)
 	{
 		wheelcam -= wheelCamVec;
+	}
+	if (Input::IsMouseButtonDown(1))
+	{
+		wheelcam = wheelcambase;
 	}
 
 	Camera::SetPosition(vPos + CameraRotVec + wheelcam);
@@ -112,7 +119,6 @@ void Controller::Update()
 	XMVECTOR frontMove = XMVectorSet(0, 0, 0.1f, 0);
 	frontMove = XMVector3TransformCoord((frontMove, mRotate));
 	*/
-	
 	//ƒJƒƒ‰
 	//XMVECTOR vCam = XMVectorSet(0, 10, -10, 0);//
 	//Camera::SetPosition(vPos + vCam);

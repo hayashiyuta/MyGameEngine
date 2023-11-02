@@ -21,7 +21,7 @@ namespace Input
 	//マウスのボタンが押されているか調べる
 	bool IsMouseButton(int buttonCode);
 	
-
+	//マウスホイール
 	LONG IsMouseWheel();
 	
 

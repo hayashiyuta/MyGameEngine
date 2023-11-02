@@ -110,7 +110,7 @@ namespace Input
 		}
 		return false;
 	}
-
+	//マウスホイール
 	LONG IsMouseWheel()
 	{
 		if (mouseState_.lZ != 0) { return mouseState_.lZ; }
